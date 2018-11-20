@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "27800903839",
+    "firebase_url": "https://feelingloadapp.firebaseio.com",
+    "project_id": "feelingloadapp",
+    "storage_bucket": "feelingloadapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27800903839:android:2dd0e75bb4640883",
+        "android_client_info": {
+          "package_name": "edu.uoc.churtado.feelingloadapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27800903839-p7d68vqph3igkbm4thsfdbu47pjc79do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.uoc.churtado.feelingloadapp",
+            "certificate_hash": "1bb40dcb7684451cc12f3246ac6ec1eb8d60dfc1"
+          }
+        },
+        {
+          "client_id": "27800903839-5l3cr6ann0v12tt6491tu1rchv2jnk9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsKVc15mhR_N3Comx359qj1ncxTdXXPX4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27800903839-5l3cr6ann0v12tt6491tu1rchv2jnk9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
