@@ -150,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            User user = new User(email, getUserType(userType));
+                            User user = new User(email, getUserType(userType), name, surname);
                             FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getUid()).setValue(user)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override

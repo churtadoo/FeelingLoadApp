@@ -3,6 +3,8 @@ package edu.uoc.churtado.feelingloadapp.models;
 public class User {
     private String email;
     private String type;
+    private String name;
+    private String surname;
 
     private static final String CoachType = "Coach";
 
@@ -10,9 +12,11 @@ public class User {
 
     }
 
-    public User(String email, UserType type){
+    public User(String email, UserType type, String name, String surname){
         this.email = email;
         this.type = getType(type);
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getEmail(){
@@ -22,6 +26,10 @@ public class User {
     public UserType getType(){
         return getType(this.type);
     }
+
+    public String getName() { return this.name; }
+
+    public String getSurname() { return this.surname; }
 
     private UserType getType(String userType) {
         if(userType.equals("Coach")) return UserType.Coach;

@@ -4,31 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Coach {
-    private String Email;
-    private String Name;
-    private String Surname;
+public class Coach extends User {
     private List<Player> Players;
     private List<Training> Trainings;
 
-    public Coach(String email, String name, String surname){
-        this.Email = email;
-        this.Name = name;
-        this.Surname = surname;
+    public Coach(){
         Players = new ArrayList<Player>();
         Trainings = new ArrayList<Training>();
-    }
-
-    public String getEmail(){
-        return this.Email;
-    }
-
-    public String getName(){
-        return this.Name;
-    }
-
-    public String getSurname(){
-        return this.Surname;
     }
 
     public List<Player> getPlayers(){
