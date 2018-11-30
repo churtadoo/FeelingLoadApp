@@ -20,13 +20,13 @@
             android:contentDescription="@string/app_logo_description" />
 
         <EditText
-            android:id="@+id/editTextUsername"
+            android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:hint="@string/email"
-            android:inputType="text" />
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/editTextPassword"

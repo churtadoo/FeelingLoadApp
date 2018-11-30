@@ -21,13 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainCoachActivity"/>
-        <activity android:name=".activities.MainPlayerActivity"/>
+        <activity android:name=".activities.MainCoachActivity" />
+        <activity android:name=".activities.MainPlayerActivity" />
         <activity android:name=".activities.PlayerDetailsActivity" />
         <activity android:name=".activities.TrainingDetailsActivity" />
         <activity android:name=".activities.RPERegisterActivity" />
         <activity android:name=".activities.EditTrainingActivity" />
         <activity android:name=".activities.RPESummaryActivity" />
+        <activity android:name=".activities.RegisterActivity"></activity>
     </application>
 
 </manifest>

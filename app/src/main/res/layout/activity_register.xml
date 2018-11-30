@@ -4,99 +4,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.uoc.churtado.feelingloadapp.activities.LoginActivity">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <ImageView
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo"
-            android:contentDescription="@string/app_logo_description" />
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/name"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/editTextSurname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/surname"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
-
-        <RadioGroup
-            android:id="@+id/radioUserType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioButtonCoach"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/coach" />
+                android:src="@drawable/logo"
+                android:contentDescription="@string/app_logo_description" />
 
-
-            <RadioButton
-                android:id="@+id/radioButtonPlayer"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/player" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/name"
+                android:inputType="text" />
 
-        </RadioGroup>
+            <EditText
+                android:id="@+id/editTextSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/surname"
+                android:inputType="text" />
 
-        <Button
-            android:id="@+id/buttonRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/register" />
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
 
-        <TextView
-            android:id="@+id/textViewLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/login_here"
-            android:textAlignment="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <RadioGroup
+                android:id="@+id/radioUserType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonCoach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/coach" />
+
+
+                <RadioButton
+                    android:id="@+id/radioButtonPlayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/player" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/register" />
+
+            <TextView
+                android:id="@+id/textViewLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/login_here"
+                android:textAlignment="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+        </LinearLayout>
+    </ScrollView>
+
 
     <ProgressBar
         android:visibility="gone"

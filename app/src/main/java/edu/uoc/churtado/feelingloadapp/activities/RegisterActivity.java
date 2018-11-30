@@ -5,11 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,38 +29,41 @@ import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.models.User;
 import edu.uoc.churtado.feelingloadapp.models.UserType;
 
-public class LoginActivity extends AppCompatActivity {
-
-    EditText editTextEmail, editTextPassword;
+public class RegisterActivity extends AppCompatActivity {
+    EditText editTextName, editTextSurname, editTextEmail, editTextPassword;
+    RadioGroup radioGroupUserType;
 
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
 
         checkLoggedUser();
 
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextSurname = (EditText) findViewById(R.id.editTextSurname);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        radioGroupUserType = (RadioGroup) findViewById(R.id.radioUserType);
 
-        findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if user pressed on button login
-                //here we will login the user to server
-                loginUser();
+                //if user pressed on button register
+                //here we will register the user to server
+                registerUser();
             }
         });
 
-        findViewById(R.id.textViewRegister).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.textViewLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //open register screen
+                //if user pressed on login
+                //we will open the login screen
                 finish();
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
@@ -75,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
                     UserType userType = user.getType();
                     if(userType.equals(UserType.Coach)){
-                        startActivity(new Intent(LoginActivity.this, MainCoachActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, MainCoachActivity.class));
                     }
                     else {
-                        startActivity(new Intent(LoginActivity.this, MainPlayerActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, MainPlayerActivity.class));
                     }
                 }
 
@@ -95,11 +103,27 @@ public class LoginActivity extends AppCompatActivity {
         return currentUser != null;
     }
 
-    private void loginUser(){
+    private void registerUser(){
+        final String name = editTextName.getText().toString().trim();
+        final String surname = editTextSurname.getText().toString().trim();
         final String email = editTextEmail.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
 
+        final String userType = ((RadioButton) findViewById(radioGroupUserType.getCheckedRadioButtonId())).getText().toString();
+
         //first we will do the validations
+
+        if (TextUtils.isEmpty(name)) {
+            editTextName.setError("Please enter name");
+            editTextName.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(surname)) {
+            editTextSurname.setError("Please enter surname");
+            editTextSurname.requestFocus();
+            return;
+        }
 
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError("Please enter your email");
@@ -118,20 +142,45 @@ public class LoginActivity extends AppCompatActivity {
             editTextPassword.requestFocus();
             return;
         }
-        final LoginActivity loginActivity = this;
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            checkLoggedUser();
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            User user = new User(email, getUserType(userType));
+                            FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getUid()).setValue(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("TAG", "success");
+                                            checkLoggedUser();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("TAG", "failure");
+                                        }
+                                    })
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("TAG", "complete");
+                                        }
+                                    });
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(loginActivity, "Message copied to clipboard!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Message copied to clipboard!", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+    }
+
+    private UserType getUserType(String userType) {
+        if(userType.equals("Coach")) return UserType.Coach;
+        else return UserType.Player;
     }
 }
