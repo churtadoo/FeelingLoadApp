@@ -4,29 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends User {
-    private String UrlPhoto;
-    private String CoachEmail;
-    private List<PlayerTraining> Trainings;
+    private String urlPhoto;
+    private String coachEmail;
+    private ArrayList<PlayerTraining> trainings;
 
     public Player(){
-        Trainings = new ArrayList<PlayerTraining>();
+        trainings = new ArrayList<PlayerTraining>();
     }
 
     public Player(String urlPhoto, String coachEmail){
-        this.UrlPhoto = urlPhoto;
-        this.CoachEmail = coachEmail;
-        this.Trainings = new ArrayList<PlayerTraining>();
+        this.urlPhoto = urlPhoto;
+        this.coachEmail = coachEmail;
+        this.trainings = new ArrayList<PlayerTraining>();
     }
 
     public String UrlPhoto(){
-        return this.UrlPhoto;
+        return this.urlPhoto;
     }
 
     public String getCoachEmail(){
-        return this.CoachEmail;
+        return this.coachEmail;
     }
 
-    public List<PlayerTraining> getTrainings(){
-        return this.Trainings;
+    public ArrayList<PlayerTraining> getTrainings(){
+        return this.trainings;
     }
 }

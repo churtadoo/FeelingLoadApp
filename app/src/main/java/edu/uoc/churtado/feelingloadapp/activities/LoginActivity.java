@@ -67,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
             if(currentUser == null) return;
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            String userId = currentUser.getUid();
-            DatabaseReference reference = database.getReference("/users/" + userId);
+            String email = currentUser.getEmail().replaceAll("[@.]","");;
+            DatabaseReference reference = database.getReference("/users/" + email);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

@@ -75,8 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
             if(currentUser == null) return;
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            String userId = currentUser.getUid();
-            DatabaseReference reference = database.getReference("/users/" + userId);
+            String email = currentUser.getEmail().replaceAll("[@.]","");
+            DatabaseReference reference = database.getReference("/users/" + email);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                             User user = new User(email, getUserType(userType), name, surname);
-                            FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getUid()).setValue(user)
+                            FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getEmail().replaceAll("[@.]","")).setValue(user)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {

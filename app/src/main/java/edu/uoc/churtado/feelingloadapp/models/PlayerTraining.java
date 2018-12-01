@@ -3,22 +3,26 @@ package edu.uoc.churtado.feelingloadapp.models;
 import java.util.Date;
 
 public class PlayerTraining {
-    Date Date;
-    int RPE;
+    long id;
+    Date date;
+    int rpe;
 
+    public PlayerTraining() {}
     public PlayerTraining(Date date){
-        this.Date = date;
+        this.date = date;
     }
 
     public Date getDate(){
-        return this.Date;
+        return this.date;
     }
 
     public int getRPE(){
-        return this.RPE;
+        return this.rpe;
     }
 
+    public long getId() { return this.id; }
+
     public boolean HasRegisteredRPE(){
-        return RPE > 0;
+        return rpe > 0;
     }
 }
