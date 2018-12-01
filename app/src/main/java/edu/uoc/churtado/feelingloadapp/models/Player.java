@@ -18,7 +18,7 @@ public class Player extends User {
         this.trainings = new ArrayList<PlayerTraining>();
     }
 
-    public String UrlPhoto(){
+    public String getUrlPhoto(){
         return this.urlPhoto;
     }
 
@@ -28,5 +28,9 @@ public class Player extends User {
 
     public ArrayList<PlayerTraining> getTrainings(){
         return this.trainings;
+    }
+
+    public String getDisplayName(){
+        return this.getName() + " " + this.getSurname();
     }
 }

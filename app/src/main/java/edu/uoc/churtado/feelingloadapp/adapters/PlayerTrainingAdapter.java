@@ -5,8 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.models.PlayerTraining;
 
@@ -44,7 +50,7 @@ public class PlayerTrainingAdapter extends ArrayAdapter<PlayerTraining> {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(context).inflate(R.layout.playertraining_list_item, parent, false);
             viewHolder.trainingDate = (TextView) view.findViewById(R.id.training_date);
-            viewHolder.rpeRegistered = (TextView) view.findViewById(R.id.rpe_registered);
+            viewHolder.rpeRegistered = (CheckBox) view.findViewById(R.id.rpe_registered);
             view.setTag(viewHolder);
 
         } else {
@@ -53,14 +59,15 @@ public class PlayerTrainingAdapter extends ArrayAdapter<PlayerTraining> {
         }
 
         // Set text with the item name and item id
-        viewHolder.trainingDate.setText(String.valueOf(playerTrainings.get(position).getDate()));
-        viewHolder.rpeRegistered.setText(String.valueOf(playerTrainings.get(position).getRPE()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+        viewHolder.trainingDate.setText(dateFormat.format(playerTrainings.get(position).getDate()));
+        viewHolder.rpeRegistered.setChecked(playerTrainings.get(position).HasRegisteredRPE());
 
         return view;
     }
 
     static class ViewHolder {
         protected TextView trainingDate;
-        protected TextView rpeRegistered;
+        protected CheckBox rpeRegistered;
     }
 }

@@ -4,16 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="40dp">
     <TextView
-        android:id="@+id/training_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="0.6"
-        android:gravity="center"/>
-    <CheckBox android:id="@+id/rpe_registered"
+        android:gravity="center"
+        android:text="@string/training_date"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:layout_gravity="center"
-        android:layout_weight="0.4"/>
+        android:layout_weight="0.4"
+        android:text="@string/rpe_registered"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
 </LinearLayout>

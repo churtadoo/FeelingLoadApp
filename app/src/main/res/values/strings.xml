@@ -11,4 +11,6 @@
     <string name="player">Player</string>
     <string name="register">Register</string>
     <string name="login_here">Already Registered? Login Here</string>
+    <string name="training_date">Training date</string>
+    <string name="rpe_registered">RPE Registered</string>
 </resources>
