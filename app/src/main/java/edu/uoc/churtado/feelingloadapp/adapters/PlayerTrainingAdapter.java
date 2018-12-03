@@ -13,7 +13,7 @@ import java.util.Locale;
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.activities.PlayerTrainingDetailsActivity;
 import edu.uoc.churtado.feelingloadapp.models.PlayerTraining;
-import static edu.uoc.churtado.feelingloadapp.fragments.PlayerTrainingDetailFragment.ARG_ITEM_ID;
+import static edu.uoc.churtado.feelingloadapp.activities.PlayerTrainingDetailsActivity.ARG_ITEM_ID;
 
 public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAdapter.ViewHolder> {
     private final List<PlayerTraining> playerTrainings;

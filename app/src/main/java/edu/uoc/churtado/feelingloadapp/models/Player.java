@@ -1,6 +1,7 @@
 package edu.uoc.churtado.feelingloadapp.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Player extends User {
@@ -32,5 +33,9 @@ public class Player extends User {
 
     public String getDisplayName(){
         return this.getName() + " " + this.getSurname();
+    }
+
+    public void registerRpe(int playerTrainingPosition, int rpe){
+        this.trainings.get(playerTrainingPosition).registerRPE(rpe);
     }
 }

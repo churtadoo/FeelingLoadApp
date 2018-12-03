@@ -1,17 +1,12 @@
 package edu.uoc.churtado.feelingloadapp.activities;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +22,6 @@ import java.util.Date;
 
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter;
-import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter2;
 import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.PlayerTraining;
 
@@ -56,12 +50,6 @@ public class MainPlayerActivity extends AppCompatActivity {
 
     private void fillPlayerTrainingsListView(){
        playerTrainings = player.getTrainings();
-       playerTrainings.add(new PlayerTraining(new Date()));
-       playerTrainings.add(new PlayerTraining(new Date()));
-       PlayerTraining test = new PlayerTraining(new Date());
-       test.registerRPE(7);
-       playerTrainings.add(test);
-
        setupRecyclerView((RecyclerView) recyclerView);
     }
 
