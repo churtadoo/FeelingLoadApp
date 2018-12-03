@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,37 +21,35 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter;
+import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter2;
 import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.PlayerTraining;
-import edu.uoc.churtado.feelingloadapp.models.User;
-import edu.uoc.churtado.feelingloadapp.models.UserType;
 
-public class MainPlayerActivity extends AppCompatActivity implements ListView.OnItemClickListener {
-    private PlayerTrainingAdapter playerTrainingAdapter;
+public class MainPlayerActivity extends AppCompatActivity {
     private ArrayList<PlayerTraining> playerTrainings = new ArrayList<>();
 
-    private ListView playerTrainingsList;
     private Player player;
 
     private TextView playerName;
     private ImageView playerPhoto;
+    private View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_player);
 
-        playerTrainingsList = (ListView) findViewById(R.id.playertrainings_list);
-        playerName = (TextView) findViewById(R.id.player_name);
-        playerPhoto = (ImageView) findViewById(R.id.player_photo);
+        playerName = findViewById(R.id.player_name);
+        playerPhoto = findViewById(R.id.player_photo);
+
+        recyclerView = findViewById(R.id.playertrainings_list);
+        assert recyclerView != null;
 
         fillCurrentPlayer();
     }
@@ -62,23 +61,15 @@ public class MainPlayerActivity extends AppCompatActivity implements ListView.On
        PlayerTraining test = new PlayerTraining(new Date());
        test.registerRPE(7);
        playerTrainings.add(test);
-       playerTrainingAdapter = new PlayerTrainingAdapter(this, playerTrainings);
 
-       LayoutInflater inflater = getLayoutInflater();
-       ViewGroup header = (ViewGroup)inflater.inflate(R.layout.playertraining_list_header, playerTrainingsList, false);
-       playerTrainingsList.addHeaderView(header, null, false);
-       playerTrainingsList.setAdapter(playerTrainingAdapter);
-       //playerTrainingsList.setOnClickListener(this);
+       setupRecyclerView((RecyclerView) recyclerView);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-        //Create intent with new activity
-        Intent intent = new Intent(MainPlayerActivity.this, TrainingDetailsActivity.class);
-        //Pass book_id to BookDetailActivity
-        intent.putExtra("playertraining_id", 1);
-        //Start the new activity
-        startActivity(intent);
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        // Setup linear layout manager to the recycler view
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //BookContent.getBooks() will get all the books from realm database
+        recyclerView.setAdapter(new PlayerTrainingAdapter(playerTrainings));
     }
 
     private void fillCurrentPlayer(){
@@ -91,7 +82,7 @@ public class MainPlayerActivity extends AppCompatActivity implements ListView.On
             public void onDataChange(DataSnapshot dataSnapshot) {
                 player = dataSnapshot.getValue(Player.class);
                 playerName.setText(player.getDisplayName());
-                //Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
+                //TODO:Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
                 fillPlayerTrainingsListView();
             }
 

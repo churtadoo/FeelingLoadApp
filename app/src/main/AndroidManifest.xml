@@ -28,7 +28,8 @@
         <activity android:name=".activities.RPERegisterActivity" />
         <activity android:name=".activities.EditTrainingActivity" />
         <activity android:name=".activities.RPESummaryActivity" />
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.PlayerTrainingDetailsActivity" />
+        <activity android:name=".activities.RegisterActivity" />
     </application>
 
 </manifest>
