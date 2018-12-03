@@ -1,8 +1,6 @@
 package edu.uoc.churtado.feelingloadapp.models;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Player extends User {
     private String urlPhoto;

@@ -4,13 +4,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.adapters.ViewPagerAdapter;
 import edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment;
 import edu.uoc.churtado.feelingloadapp.fragments.TrainingsFragment;
+import edu.uoc.churtado.feelingloadapp.models.Coach;
 
 public class MainCoachActivity extends AppCompatActivity {
+
+    private Coach coach;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,13 +21,11 @@ public class MainCoachActivity extends AppCompatActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
         // Add Fragments to adapter one by one
         adapter.addFragment(new PlayersFragment(), "PLAYERS");
         adapter.addFragment(new TrainingsFragment(), "TRAININGS");
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-    }
+        tabLayout.setupWithViewPager(viewPager);    }
 }

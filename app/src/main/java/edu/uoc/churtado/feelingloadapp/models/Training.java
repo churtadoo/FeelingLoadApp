@@ -5,30 +5,30 @@ import java.util.Date;
 import java.util.List;
 
 public class Training {
-    private Date Date;
-    private List<PlayerRPE> PlayerRPEs;
+    private Date date;
+    private List<PlayerRPE> playerRPEs;
 
     public Training(Date date){
-        this.Date = date;
-        this.PlayerRPEs = new ArrayList<PlayerRPE>();
+        this.date = date;
+        this.playerRPEs = new ArrayList<PlayerRPE>();
     }
 
     public Date getDate(){
-        return this.Date;
+        return this.date;
     }
 
     public List<PlayerRPE> getRPEs(){
-        return this.PlayerRPEs;
+        return this.playerRPEs;
     }
 
     public void addPlayerRPE(String playerEmail){
         PlayerRPE playerRPE = new PlayerRPE(playerEmail, 0);
-        this.PlayerRPEs.add(playerRPE);
+        this.playerRPEs.add(playerRPE);
     }
 
     public boolean allPlayersWithRPERegistered(){
-        for(int i = 0; i < this.PlayerRPEs.size(); ++i){
-            if(!this.PlayerRPEs.get(i).HasRegisteredRPE()) return false;
+        for(int i = 0; i < this.playerRPEs.size(); ++i){
+            if(!this.playerRPEs.get(i).HasRegisteredRPE()) return false;
         }
         return true;
     }

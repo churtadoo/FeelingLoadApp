@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#D81B60"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fragment One"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:textColor="#fff"
-        android:layout_centerInParent="true"/>
-
-
-</RelativeLayout>
+    android:layout_height="match_parent"
+    tools:context="edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment"
+    android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="@string/photo"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.35"
+            android:gravity="center"
+            android:text="@string/name"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.35"
+            android:gravity="center"
+            android:text="@string/surname"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/players_list"
+        android:name="edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:context="edu.uoc.churtado.feelingloadapp.activities.MainCoachActivity"
+        tools:listitem="@layout/players_list_item"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="40dp"/>
+</LinearLayout>

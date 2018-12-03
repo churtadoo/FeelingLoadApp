@@ -40,4 +40,12 @@ public class User {
         if(userType == UserType.Coach) return "Coach";
         else return "Player";
     }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setSurname(String surname){
+        this.surname = surname;
+    }
 }
