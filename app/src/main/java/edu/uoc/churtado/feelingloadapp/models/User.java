@@ -41,6 +41,10 @@ public class User {
         else return "Player";
     }
 
+    public void setType(UserType userType){
+        this.type = getType(userType);
+    }
+
     public void setName(String name){
         this.name = name;
     }
@@ -48,4 +52,6 @@ public class User {
     public void setSurname(String surname){
         this.surname = surname;
     }
+
+    public void setEmail(String email) { this.email = email; }
 }

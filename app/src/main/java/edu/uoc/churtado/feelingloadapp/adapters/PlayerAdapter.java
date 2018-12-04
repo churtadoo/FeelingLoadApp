@@ -1,6 +1,7 @@
 package edu.uoc.churtado.feelingloadapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 import edu.uoc.churtado.feelingloadapp.R;
+import edu.uoc.churtado.feelingloadapp.activities.PlayerDetailsActivity;
 import edu.uoc.churtado.feelingloadapp.models.Player;
+
+import static edu.uoc.churtado.feelingloadapp.activities.PlayerDetailsActivity.ARG_ITEM_ID;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
     private final List<Player> players;
@@ -43,10 +47,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
             public void onClick(View v) {
                 int currentPos = (int) v.getTag();
                 Context context = v.getContext();
-                //Intent intent = new Intent(context, PlayerTrainingDetailsActivity.class);
-                //intent.putExtra(ARG_ITEM_ID, currentPos);
+                Intent intent = new Intent(context, PlayerDetailsActivity.class);
+                intent.putExtra(ARG_ITEM_ID, currentPos);
                 //Start the new activity
-                //context.startActivity(intent);
+                context.startActivity(intent);
             }
         });
     }

@@ -8,19 +8,12 @@ public class Coach extends User {
     private ArrayList<Training> trainings;
 
     public Coach(){
+        this.setType(UserType.Coach);
         players = new ArrayList<Player>();
         trainings = new ArrayList<Training>();
     }
 
     public ArrayList<Player> getPlayers(){
-        Player player1 = new Player();
-        player1.setName("Greg");
-        player1.setSurname("Davenport");
-        Player player2 = new Player();
-        player2.setName("Oliver");
-        player2.setSurname("Hebert");
-        players.add(player1);
-        players.add(player2);
         return this.players;
     }
 
@@ -40,5 +33,9 @@ public class Coach extends User {
                 this.trainings.get(i).addPlayerRPE(player.getEmail());
             }
         }
+    }
+
+    public void updatePlayer(int position, Player player) {
+        this.players.set(position, player);
     }
 }

@@ -16,4 +16,5 @@
     <string name="save">SAVE</string>
     <string name="photo">Photo</string>
     <string name="hour">Hour</string>
+    <string name="player_photo">Player photo</string>
 </resources>

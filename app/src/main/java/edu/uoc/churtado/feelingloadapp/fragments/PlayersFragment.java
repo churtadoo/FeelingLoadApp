@@ -1,8 +1,10 @@
 package edu.uoc.churtado.feelingloadapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import edu.uoc.churtado.feelingloadapp.R;
+import edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity;
+import edu.uoc.churtado.feelingloadapp.activities.PlayerDetailsActivity;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerAdapter;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
 import edu.uoc.churtado.feelingloadapp.models.Player;
@@ -27,6 +31,7 @@ public class PlayersFragment extends Fragment {
     private Coach coach;
     private ArrayList<Player> players;
     private View recyclerView;
+    private FloatingActionButton addNewPlayerButton;
 
     public PlayersFragment() {
         // Required empty public constructor
@@ -40,6 +45,14 @@ public class PlayersFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = getView().findViewById(R.id.players_list);
+        addNewPlayerButton = getView().findViewById(R.id.addNewPlayer);
+        addNewPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), PlayerDetailsActivity.class);
+                startActivity(i);
+            }
+        });
         fillCurrentCoach();
     }
 

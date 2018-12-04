@@ -8,7 +8,8 @@ public class Player extends User {
     private ArrayList<PlayerTraining> trainings;
 
     public Player(){
-        trainings = new ArrayList<PlayerTraining>();
+        this.setType(UserType.Player);
+        this.trainings = new ArrayList<PlayerTraining>();
     }
 
     public Player(String urlPhoto, String coachEmail){
@@ -36,4 +37,6 @@ public class Player extends User {
     public void registerRpe(int playerTrainingPosition, int rpe){
         this.trainings.get(playerTrainingPosition).registerRPE(rpe);
     }
+
+    public void setCoachEmail(String coachEmail){ this.coachEmail = coachEmail; }
 }
