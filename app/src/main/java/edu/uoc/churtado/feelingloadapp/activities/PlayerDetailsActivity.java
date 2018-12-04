@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -37,12 +41,15 @@ import edu.uoc.churtado.feelingloadapp.models.Player;
 public class PlayerDetailsActivity extends AppCompatActivity {
     public static final String ARG_ITEM_ID = "item_id";
     private int PICK_IMAGE_REQUEST = 1;
-    private int playerPosition;
+    private int playerPosition = -1;
     private Coach coach;
     private EditText playerName, playerSurname, playerEmail;
     private ImageView playerPhoto;
     private Button selectPhoto, savePlayer;
     private Player currentPlayer;
+    private StorageReference mStorageRef;
+
+    private Uri uploadedPhotoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         playerName = findViewById(R.id.editTextName);
         playerSurname = findViewById(R.id.editTextSurname);
         playerEmail = findViewById(R.id.editTextEmail);
+        playerPhoto = findViewById(R.id.player_photo);
 
         selectPhoto = findViewById(R.id.selectPhoto);
         selectPhoto.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +75,8 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                 saveNewData();
             }
         });
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         if(getIntent().hasExtra(ARG_ITEM_ID)){
             playerPosition = getIntent().getIntExtra(ARG_ITEM_ID, -1);
@@ -125,10 +135,10 @@ public class PlayerDetailsActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            Uri uri = data.getData();
+            uploadedPhotoUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uploadedPhotoUri);
                 // Log.d(TAG, String.valueOf(bitmap));
 
                 playerPhoto = (ImageView) findViewById(R.id.player_photo);
@@ -151,7 +161,41 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         else {
             coach.addPlayer(currentPlayer);
         }
-        //TODO: guardar photo url
+        if(uploadedPhotoUri != null) {
+            String playerEmail = coach.getEmail().replaceAll("[@.]","");
+            final StorageReference ref = mStorageRef.child("userImages/" + playerEmail + ".jpg");
+            UploadTask uploadTask = ref.putFile(uploadedPhotoUri);
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return ref.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        currentPlayer.setUrlPhoto(String.valueOf(downloadUri));
+                        saveCurrentData();
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+        }
+        else{
+            saveCurrentData();
+        }
+    }
+
+    private void saveCurrentData(){
         String userEmail = coach.getEmail().replaceAll("[@.]","");
         FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(coach)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

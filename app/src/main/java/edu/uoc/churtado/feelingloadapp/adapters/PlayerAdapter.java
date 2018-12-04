@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.activities.PlayerDetailsActivity;
@@ -37,9 +40,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final PlayerAdapter.ViewHolder holder, int position) {
         holder.item = players.get(position);
-        //TODO:photo
-        holder.playerName.setText(players.get(position).getName());
-        holder.playerSurname.setText(players.get(position).getSurname());
+        if(holder.item.getUrlPhoto() != null && !holder.item.getUrlPhoto().isEmpty()){
+            Picasso.get().load(holder.item.getUrlPhoto()).into(holder.playerPhoto);
+        }
+        holder.playerName.setText(holder.item.getName());
+        holder.playerSurname.setText(holder.item.getSurname());
 
         holder.mView.setTag(position);
         holder.mView.setOnClickListener(new View.OnClickListener() {

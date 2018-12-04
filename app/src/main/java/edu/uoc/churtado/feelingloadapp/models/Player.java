@@ -39,4 +39,6 @@ public class Player extends User {
     }
 
     public void setCoachEmail(String coachEmail){ this.coachEmail = coachEmail; }
+
+    public void setUrlPhoto(String urlPhoto) { this.urlPhoto = urlPhoto; }
 }
