@@ -18,10 +18,6 @@ public class Coach extends User {
     }
 
     public ArrayList<Training> getTrainings(){
-        Training training1 = new Training(new Date());
-        Training training2 = new Training(new Date());
-        this.trainings.add(training1);
-        this.trainings.add(training2);
         return this.trainings;
     }
 
@@ -37,5 +33,18 @@ public class Coach extends User {
 
     public void updatePlayer(int position, Player player) {
         this.players.set(position, player);
+    }
+
+    public void updateTraining(int trainingPosition, Training training) {
+        this.trainings.set(trainingPosition, training);
+    }
+
+    public void addTraining(Date date) {
+        Training training = new Training(date);
+        for(int i = 0; i < this.players.size(); ++i){
+            training.addPlayerRPE(this.players.get(i).getEmail());
+        }
+        this.trainings.add(training);
+
     }
 }

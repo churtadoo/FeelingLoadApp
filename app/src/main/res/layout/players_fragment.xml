@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment"
-    android:orientation="vertical">
+    tools:context="edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:id="@+id/list_header">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,14 +49,19 @@
         tools:context="edu.uoc.churtado.feelingloadapp.activities.MainCoachActivity"
         tools:listitem="@layout/players_list_item"
         android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="40dp"/>
+        android:fadingEdgeLength="40dp"
+        android:scrollbars="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/list_header"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addNewPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center"
         android:layout_marginBottom="10dp"
         android:src="@android:drawable/ic_menu_add"
         app:backgroundTint="@color/colorPrimary"
-        android:tint="@color/white"/>
-</LinearLayout>
+        android:tint="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

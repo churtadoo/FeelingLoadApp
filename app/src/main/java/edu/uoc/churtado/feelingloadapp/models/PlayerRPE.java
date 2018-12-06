@@ -1,23 +1,23 @@
 package edu.uoc.churtado.feelingloadapp.models;
 
 public class PlayerRPE {
-    private String PlayerEmail;
-    private int RPE;
+    private String playeremail;
+    private int rpe;
 
     public PlayerRPE(String playerEmail, int rpe){
-        this.PlayerEmail = playerEmail;
-        this.RPE = rpe;
+        this.playeremail = playerEmail;
+        this.rpe = rpe;
     }
 
     public String getPlayerEmail(){
-        return this.PlayerEmail;
+        return this.playeremail;
     }
 
     public int getRPE(){
-        return this.RPE;
+        return this.rpe;
     }
 
     public boolean HasRegisteredRPE(){
-        return RPE > 0;
+        return rpe > 0;
     }
 }

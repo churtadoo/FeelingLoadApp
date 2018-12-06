@@ -8,7 +8,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
-        android:src="@drawable/logo"
         android:layout_gravity="center_horizontal"/>
     <TextView
         android:id="@+id/player_name"

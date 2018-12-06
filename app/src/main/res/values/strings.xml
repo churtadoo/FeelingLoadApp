@@ -17,4 +17,6 @@
     <string name="photo">Photo</string>
     <string name="hour">Hour</string>
     <string name="player_photo">Player photo</string>
+    <string name="date_format">dd/mm/yyyy</string>
+    <string name="time_format">hh:mm</string>
 </resources>

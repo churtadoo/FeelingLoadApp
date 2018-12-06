@@ -42,6 +42,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         holder.item = players.get(position);
         if(holder.item.getUrlPhoto() != null && !holder.item.getUrlPhoto().isEmpty()){
             Picasso.get().load(holder.item.getUrlPhoto()).into(holder.playerPhoto);
+            //TODO:Si no hay foto, mostrar algo
         }
         holder.playerName.setText(holder.item.getName());
         holder.playerSurname.setText(holder.item.getSurname());

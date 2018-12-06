@@ -60,5 +60,6 @@
         tools:context="edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity"
         tools:listitem="@layout/playertraining_list_item"
         android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="40dp"/>
+        android:fadingEdgeLength="40dp"
+        android:scrollbars="vertical"/>
 </LinearLayout>

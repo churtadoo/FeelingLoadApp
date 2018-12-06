@@ -64,14 +64,6 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
         }
     }
 
-    private String getId(int posicion) {
-        if (posicion != RecyclerView.NO_POSITION) {
-            return String.valueOf(playerTrainings.get(posicion).getId());
-        } else {
-            return null;
-        }
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         final TextView trainingDate;

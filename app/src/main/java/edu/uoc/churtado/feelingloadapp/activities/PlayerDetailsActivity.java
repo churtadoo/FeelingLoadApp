@@ -45,7 +45,6 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     private Coach coach;
     private EditText playerName, playerSurname, playerEmail;
     private ImageView playerPhoto;
-    private Button selectPhoto, savePlayer;
     private Player currentPlayer;
     private StorageReference mStorageRef;
 
@@ -61,14 +60,14 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         playerEmail = findViewById(R.id.editTextEmail);
         playerPhoto = findViewById(R.id.player_photo);
 
-        selectPhoto = findViewById(R.id.selectPhoto);
+        Button selectPhoto = findViewById(R.id.selectPhoto);
         selectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImage();
             }
         });
-        savePlayer = findViewById(R.id.savePlayer);
+        Button savePlayer = findViewById(R.id.savePlayer);
         savePlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +150,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
 
     private void saveNewData(){
         //TODO: validacions
+        //TODO:verificar que no haya otro player con ese mail
         currentPlayer.setName(String.valueOf(playerName.getText()));
         currentPlayer.setSurname(String.valueOf(playerSurname.getText()));
         currentPlayer.setEmail(String.valueOf(playerEmail.getText()));
@@ -162,7 +162,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
             coach.addPlayer(currentPlayer);
         }
         if(uploadedPhotoUri != null) {
-            String playerEmail = coach.getEmail().replaceAll("[@.]","");
+            String playerEmail = currentPlayer.getEmail().replaceAll("[@.]","");
             final StorageReference ref = mStorageRef.child("userImages/" + playerEmail + ".jpg");
             UploadTask uploadTask = ref.putFile(uploadedPhotoUri);
 

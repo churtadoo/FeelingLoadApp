@@ -71,7 +71,10 @@ public class MainPlayerActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 player = dataSnapshot.getValue(Player.class);
                 playerName.setText(player.getDisplayName());
-                Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
+                if(player.getUrlPhoto() != null && !player.getUrlPhoto().isEmpty()){
+                    Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
+                    //TODO:Si no hay foto, mostrar algo
+                }
                 fillPlayerTrainingsListView();
             }
 

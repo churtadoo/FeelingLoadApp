@@ -35,4 +35,6 @@ public class Training {
         }
         return true;
     }
+
+    public void setDate(Date date) { this.date = date; }
 }
