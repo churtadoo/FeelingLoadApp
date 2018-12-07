@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.activities.EditTrainingActivity;
+import edu.uoc.churtado.feelingloadapp.activities.RPESummaryActivity;
 import edu.uoc.churtado.feelingloadapp.adapters.TrainingAdapter;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
 import edu.uoc.churtado.feelingloadapp.models.Training;
@@ -33,7 +34,7 @@ public class TrainingsFragment extends Fragment {
     private Coach coach;
     private ArrayList<Training> trainings;
     private View recyclerView;
-    private Button addNewTrainingButton;
+    private Button addNewTrainingButton, statsButton;
 
     public TrainingsFragment() {
         // Required empty public constructor
@@ -52,6 +53,14 @@ public class TrainingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), EditTrainingActivity.class);
+                startActivity(i);
+            }
+        });
+        statsButton = getView().findViewById(R.id.stats);
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(getContext(), RPESummaryActivity.class);
                 startActivity(i);
             }
         });

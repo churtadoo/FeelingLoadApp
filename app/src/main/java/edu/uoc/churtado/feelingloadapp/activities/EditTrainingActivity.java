@@ -231,7 +231,6 @@ public class EditTrainingActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 coach = dataSnapshot.getValue(Coach.class);
-                fillTrainingView();
             }
 
             @Override
@@ -239,9 +238,5 @@ public class EditTrainingActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
-    }
-
-    private void fillTrainingView(){
-
     }
 }

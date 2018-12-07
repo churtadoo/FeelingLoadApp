@@ -1,9 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RPESummaryActivity">
+    android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start"/>
+        <EditText
+            android:id="@+id/et_mostrar_fecha_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            android:hint="@string/date_format"
+            android:enabled="false"/>
+        <ImageButton
+            android:id="@+id/ib_obtener_fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:background="@color/colorPrimary"
+            android:tint="@color/white"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end"/>
+        <EditText
+            android:id="@+id/et_mostrar_fecha_picker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            android:hint="@string/date_format"
+            android:enabled="false"/>
+        <ImageButton
+            android:id="@+id/ib_obtener_fecha2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:background="@color/colorPrimary"
+            android:tint="@color/white"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7">
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rpe_summary" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/updateGraph"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:text="@string/update"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

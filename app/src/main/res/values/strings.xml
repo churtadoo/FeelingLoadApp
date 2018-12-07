@@ -21,4 +21,7 @@
     <string name="time_format">hh:mm</string>
     <string name="stats">STATS</string>
     <string name="add">ADD</string>
+    <string name="end">End</string>
+    <string name="start">Start</string>
+    <string name="update">Update</string>
 </resources>
