@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +33,7 @@ public class TrainingsFragment extends Fragment {
     private Coach coach;
     private ArrayList<Training> trainings;
     private View recyclerView;
-    private FloatingActionButton addNewTrainingButton;
+    private Button addNewTrainingButton;
 
     public TrainingsFragment() {
         // Required empty public constructor
