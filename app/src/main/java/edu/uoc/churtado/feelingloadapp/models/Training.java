@@ -29,6 +29,16 @@ public class Training {
         this.rpes.add(playerRPE);
     }
 
+    public void registerRpe(String playerEmail, int rpe){
+        for(int i = 0; i < this.rpes.size(); ++i){
+            PlayerRPE playerRpe = this.rpes.get(i);
+            if(playerRpe.getPlayerEmail().equals(playerEmail)){
+                playerRpe.registerRpe(rpe);
+                this.rpes.set(i, playerRpe);
+            }
+        }
+    }
+
     public boolean allPlayersWithRPERegistered(){
         for(int i = 0; i < this.rpes.size(); ++i){
             if(!this.rpes.get(i).HasRegisteredRPE()) return false;

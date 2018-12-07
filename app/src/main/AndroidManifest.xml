@@ -25,7 +25,6 @@
         <activity android:name=".activities.MainPlayerActivity" />
         <activity android:name=".activities.PlayerDetailsActivity" />
         <activity android:name=".activities.TrainingDetailsActivity" />
-        <activity android:name=".activities.RPERegisterActivity" />
         <activity android:name=".activities.EditTrainingActivity" />
         <activity android:name=".activities.RPESummaryActivity" />
         <activity android:name=".activities.PlayerTrainingDetailsActivity" />

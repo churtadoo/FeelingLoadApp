@@ -47,4 +47,12 @@ public class Coach extends User {
         this.trainings.add(training);
 
     }
+
+    public void registerRpe(Date trainingDate, int rpe, String playerEmail){
+        for(int i = 0; i < this.trainings.size(); ++i){
+            if(this.trainings.get(i).getDate().equals(trainingDate)){
+                this.trainings.get(i).registerRpe(playerEmail, rpe);
+            }
+        }
+    }
 }

@@ -24,4 +24,8 @@ public class PlayerRPE {
     public boolean HasRegisteredRPE(){
         return rpe > 0;
     }
+
+    public void registerRpe(int rpe){
+        this.rpe = rpe;
+    }
 }

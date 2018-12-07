@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import edu.uoc.churtado.feelingloadapp.R;
+import edu.uoc.churtado.feelingloadapp.models.Coach;
+import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.User;
 import edu.uoc.churtado.feelingloadapp.models.UserType;
 
@@ -150,27 +152,70 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            User user = new User(email, getUserType(userType), name, surname);
-                            FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getEmail().replaceAll("[@.]","")).setValue(user)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("TAG", "success");
+                            final String userEmail = firebaseUser.getEmail().replaceAll("[@.]","");
+                            if(getUserType(userType) == UserType.Player) {
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("/users/" + userEmail);
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.getValue() != null){
+                                            Player player = dataSnapshot.getValue(Player.class);
                                             checkLoggedUser();
                                         }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d("TAG", "failure");
+                                        else {
+                                            User user = new User(email, getUserType(userType), name, surname);
+                                            FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(user)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d("TAG", "success");
+                                                            checkLoggedUser();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d("TAG", "failure");
+                                                        }
+                                                    })
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Log.d("TAG", "complete");
+                                                        }
+                                                    });
                                         }
-                                    })
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            Log.d("TAG", "complete");
-                                        }
-                                    });
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                            else {
+                                User user = new User(email, getUserType(userType), name, surname);
+                                FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(user)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("TAG", "success");
+                                                checkLoggedUser();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("TAG", "failure");
+                                            }
+                                        })
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Log.d("TAG", "complete");
+                                            }
+                                        });
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(RegisterActivity.this, "Message copied to clipboard!", Toast.LENGTH_LONG).show();
