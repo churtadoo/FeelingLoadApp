@@ -109,7 +109,6 @@ public class MainPlayerActivity extends AppCompatActivity {
                 playerName.setText(player.getDisplayName());
                 if(player.getUrlPhoto() != null && !player.getUrlPhoto().isEmpty()){
                     Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
-                    //TODO:Si no hay foto, mostrar algo
                 }
                 fillPlayerTrainingsListView();
             }

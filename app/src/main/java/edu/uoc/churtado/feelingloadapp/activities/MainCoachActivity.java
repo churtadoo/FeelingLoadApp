@@ -48,11 +48,6 @@ public class MainCoachActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new MainCoachActivity.DrawerItemClickListener());
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
-
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
