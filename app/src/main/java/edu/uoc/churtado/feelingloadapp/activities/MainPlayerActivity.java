@@ -1,12 +1,17 @@
 package edu.uoc.churtado.feelingloadapp.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +39,7 @@ public class MainPlayerActivity extends AppCompatActivity {
     private TextView playerName;
     private ImageView playerPhoto;
     private View recyclerView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +49,37 @@ public class MainPlayerActivity extends AppCompatActivity {
         playerName = findViewById(R.id.player_name);
         playerPhoto = findViewById(R.id.player_photo);
 
+        listView = (ListView) findViewById(R.id.menu);
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final String[] options = { "Logout" };
+
+        listView.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, options));
+        // Set the list's click listener
+        listView.setOnItemClickListener(new DrawerItemClickListener());
+
         recyclerView = findViewById(R.id.playertrainings_list);
         assert recyclerView != null;
 
         fillCurrentPlayer();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            logout();
+        }
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent    );
     }
 
     private void fillPlayerTrainingsListView(){

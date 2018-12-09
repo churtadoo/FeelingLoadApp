@@ -70,6 +70,11 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private void checkLoggedUser(){
         //if the user is already logged in, show next activity
         if (IsUserSignedIn()) {
