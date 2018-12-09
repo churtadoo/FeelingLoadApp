@@ -8,12 +8,16 @@ public class Player extends User {
     private String coachEmail;
     private ArrayList<PlayerTraining> trainings;
 
+    private static final String DefaultUrlPhoto = "https://firebasestorage.googleapis.com/v0/b/feelingloadapp.appspot.com/o/userImages%2Fuser.png?alt=media&token=84c95e11-170a-4d57-843d-20c1fe9600fa";
+
     public Player(){
         this.setType(UserType.Player);
         this.trainings = new ArrayList<PlayerTraining>();
+        this.urlPhoto = DefaultUrlPhoto;
     }
 
     public Player(String urlPhoto, String coachEmail){
+        if(urlPhoto.isEmpty()) urlPhoto = DefaultUrlPhoto;
         this.urlPhoto = urlPhoto;
         this.coachEmail = coachEmail;
         this.trainings = new ArrayList<PlayerTraining>();

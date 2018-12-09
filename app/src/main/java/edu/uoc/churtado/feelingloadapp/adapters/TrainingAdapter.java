@@ -47,6 +47,12 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
         SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.UK);
         holder.trainingHour.setText(hourFormat.format(trainings.get(position).getDate()));
 
+        if(trainings.get(position).allPlayersWithRPERegistered()){
+            holder.rpeCompleted.setImageResource(android.R.drawable.checkbox_on_background);
+        }
+        else {
+            holder.rpeCompleted.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+        }
         holder.mView.setTag(position);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +80,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
         public final View mView;
         final TextView trainingDate;
         final TextView trainingHour;
+        final ImageView rpeCompleted;
         public Training item;
 
         public ViewHolder(View view) {
@@ -81,6 +88,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
             mView = view;
             trainingDate = (TextView) view.findViewById(R.id.training_date);
             trainingHour = (TextView) view.findViewById(R.id.training_hour);
+            rpeCompleted = (ImageView) view.findViewById(R.id.rpe_completed);
         }
     }
 }

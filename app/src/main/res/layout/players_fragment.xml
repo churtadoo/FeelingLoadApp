@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
@@ -38,30 +37,29 @@
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/players_list"
-        android:name="edu.uoc.churtado.feelingloadapp.fragments.PlayersFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        tools:context="edu.uoc.churtado.feelingloadapp.activities.MainCoachActivity"
-        tools:listitem="@layout/players_list_item"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="40dp"
+        android:clipToPadding="false"
+        android:paddingBottom="30dp"
         android:scrollbars="vertical"
+        tools:listitem="@layout/players_list_item"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/list_header"/>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addNewPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="10dp"
-        android:src="@android:drawable/ic_menu_add"
-        app:backgroundTint="@color/colorPrimary"
-        android:tint="@color/white"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_below="@id/list_header"
+        />
+    <RelativeLayout android:id="@+id/footer" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/addNewPlayer"
+            style="@style/Base.Widget.AppCompat.ButtonBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/colorPrimary"
+            android:text="@string/add"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 </RelativeLayout>

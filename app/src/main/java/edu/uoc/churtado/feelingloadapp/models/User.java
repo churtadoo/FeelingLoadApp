@@ -6,8 +6,6 @@ public class User {
     private String name;
     private String surname;
 
-    private static final String CoachType = "Coach";
-
     public User(){
 
     }

@@ -24,4 +24,6 @@
     <string name="end">End</string>
     <string name="start">Start</string>
     <string name="update">Update</string>
+    <string name="rpe_completed">RPE Completed</string>
+    <string name="select_photo">Select Photo</string>
 </resources>

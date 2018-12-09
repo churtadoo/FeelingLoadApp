@@ -6,11 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +33,7 @@ public class PlayersFragment extends Fragment {
     private Coach coach;
     private ArrayList<Player> players;
     private View recyclerView;
-    private FloatingActionButton addNewPlayerButton;
+    private Button addNewPlayerButton;
 
     public PlayersFragment() {
         // Required empty public constructor
@@ -93,5 +95,7 @@ public class PlayersFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //BookContent.getBooks() will get all the books from realm database
         recyclerView.setAdapter(new PlayerAdapter(players));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
     }
 }
