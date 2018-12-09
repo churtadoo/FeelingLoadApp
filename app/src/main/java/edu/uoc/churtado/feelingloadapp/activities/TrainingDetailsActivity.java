@@ -4,6 +4,10 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +28,8 @@ import java.util.Collections;
 import java.util.Locale;
 
 import edu.uoc.churtado.feelingloadapp.R;
+import edu.uoc.churtado.feelingloadapp.adapters.PlayerRPEAdapter;
+import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
 import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.Training;
@@ -35,6 +41,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private Training currentTraining;
     private TextView trainingDate, maxRpe, minRpe, avgRpe;
     private GraphView graph;
+    private View recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +53,19 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         minRpe = findViewById(R.id.rpe_min);
         avgRpe = findViewById(R.id.rpe_avg);
         graph = findViewById(R.id.rpe_summary);
+        recyclerView = findViewById(R.id.players_list);
 
         trainingPosition = getIntent().getIntExtra(ARG_ITEM_ID, 0);
         fillUi();
+    }
+
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        // Setup linear layout manager to the recycler view
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //BookContent.getBooks() will get all the books from realm database
+        recyclerView.setAdapter(new PlayerRPEAdapter(currentTraining.getRPEs()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(),
+                DividerItemDecoration.VERTICAL));
     }
 
     private void fillUi(){
@@ -114,6 +131,8 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         // enable scaling and scrolling
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
+
+        setupRecyclerView((RecyclerView) recyclerView);
     }
 
     private int getRpeCount(int rpe){

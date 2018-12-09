@@ -2,10 +2,11 @@ package edu.uoc.churtado.feelingloadapp.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Training {
     private Date date;
-    private ArrayList<PlayerRPE> rpes;
+    private List<PlayerRPE> rpes;
 
     public Training(){
         this.rpes = new ArrayList<PlayerRPE>();
@@ -20,7 +21,7 @@ public class Training {
         return this.date;
     }
 
-    public ArrayList<PlayerRPE> getRPEs(){
+    public List<PlayerRPE> getRPEs(){
         return this.rpes;
     }
 

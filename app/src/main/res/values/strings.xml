@@ -27,4 +27,5 @@
     <string name="rpe_completed">RPE Completed</string>
     <string name="select_photo">Select Photo</string>
     <string name="logout">Logout</string>
+    <string name="rpe">RPE</string>
 </resources>
