@@ -150,6 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        final RegisterActivity registerActivity = this;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -223,7 +224,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(RegisterActivity.this, "Message copied to clipboard!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(registerActivity, "Error in register, please try again!", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -55,4 +55,13 @@ public class Coach extends User {
             }
         }
     }
+
+    public boolean hasPlayer(String playerEmail){
+        for(int i = 0; i < this.players.size(); ++i){
+            if(this.players.get(i).getEmail().equals(playerEmail)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -8,11 +8,13 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -81,6 +83,10 @@ public class PlayerDetailsActivity extends AppCompatActivity {
             playerPosition = getIntent().getIntExtra(ARG_ITEM_ID, -1);
         }
 
+        if(playerPosition != -1){
+            playerEmail.setEnabled(false);
+        }
+
         fillCurrentCoach();
     }
 
@@ -109,13 +115,13 @@ public class PlayerDetailsActivity extends AppCompatActivity {
             playerName.setText(currentPlayer.getName());
             playerSurname.setText(currentPlayer.getSurname());
             playerEmail.setText(currentPlayer.getEmail());
-            String currentPlayerPhoto = currentPlayer.getUrlPhoto();
-            if(currentPlayerPhoto != null && !currentPlayerPhoto.isEmpty()){
-                Picasso.get().load(currentPlayerPhoto).into(playerPhoto);
-            }
         }
         else {
             currentPlayer = new Player();
+        }
+        String currentPlayerPhoto = currentPlayer.getUrlPhoto();
+        if(currentPlayerPhoto != null && !currentPlayerPhoto.isEmpty()){
+            Picasso.get().load(currentPlayerPhoto).into(playerPhoto);
         }
     }
 
@@ -149,8 +155,26 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     }
 
     private void saveNewData(){
-        //TODO: validacions
-        //TODO:verificar que no haya otro player con ese mail
+        if (TextUtils.isEmpty(playerName.getText())) {
+            playerName.setError("Please enter a name");
+            playerName.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(playerSurname.getText())) {
+            playerSurname.setError("Please enter a surname");
+            playerSurname.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(playerEmail.getText())) {
+            playerEmail.setError("Please enter a email");
+            playerEmail.requestFocus();
+            return;
+        }
+        if(playerPosition == -1 && coach.hasPlayer(String.valueOf(playerEmail.getText()))){
+            playerEmail.setError("Player already exists with this email");
+            playerEmail.requestFocus();
+            return;
+        }
         currentPlayer.setName(String.valueOf(playerName.getText()));
         currentPlayer.setSurname(String.valueOf(playerSurname.getText()));
         currentPlayer.setEmail(String.valueOf(playerEmail.getText()));
@@ -164,6 +188,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         if(uploadedPhotoUri != null) {
             String playerEmail = currentPlayer.getEmail().replaceAll("[@.]","");
             final StorageReference ref = mStorageRef.child("userImages/" + playerEmail + ".jpg");
+            final PlayerDetailsActivity playerDetailsActivity = this;
             UploadTask uploadTask = ref.putFile(uploadedPhotoUri);
 
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -184,8 +209,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                         currentPlayer.setUrlPhoto(String.valueOf(downloadUri));
                         saveCurrentData();
                     } else {
-                        // Handle failures
-                        // ...
+                        Toast.makeText(playerDetailsActivity, "Error updating player", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -197,6 +221,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
 
     private void saveCurrentData(){
         String userEmail = coach.getEmail().replaceAll("[@.]","");
+        final PlayerDetailsActivity playerDetailsActivity = this;
         FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(coach)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -208,6 +233,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("TAG", "success");
+                                        Toast.makeText(playerDetailsActivity, "Successfully updated player", Toast.LENGTH_LONG).show();
                                         Intent i = new Intent(getApplicationContext(), MainCoachActivity.class);
                                         startActivity(i);
                                     }
@@ -229,6 +255,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(playerDetailsActivity, "Error updating player", Toast.LENGTH_LONG).show();
                         Log.d("TAG", "failure");
                     }
                 })

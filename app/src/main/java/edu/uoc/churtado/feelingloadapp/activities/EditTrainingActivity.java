@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,7 +62,7 @@ public class EditTrainingActivity extends AppCompatActivity implements View.OnCl
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
 
-    int selectedDay, selectedMonth, selectedYear, selectedHour, selectedMinute;
+    int selectedDay = -1, selectedMonth = -1, selectedYear = -1, selectedHour = -1, selectedMinute = -1;
 
     //Widgets
     EditText etFecha, etHora;
@@ -111,7 +113,16 @@ public class EditTrainingActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void saveTraining(){
-        //TODO: validaciones (> today)
+        if (selectedDay == -1 || selectedMonth == -1 || selectedYear == -1) {
+            etFecha.setError("Please enter a date");
+            etFecha.requestFocus();
+            return;
+        }
+        if (selectedHour == -1 || selectedMinute == -1) {
+            etHora.setError("Please enter a time");
+            etHora.requestFocus();
+            return;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
         currentTraining.setDate(calendar.getTime());
@@ -147,6 +158,7 @@ public class EditTrainingActivity extends AppCompatActivity implements View.OnCl
     private void updatePlayers(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child("users");
+        final EditTrainingActivity editTrainingActivity = this;
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot user : snapshot.getChildren()) {
@@ -157,6 +169,7 @@ public class EditTrainingActivity extends AppCompatActivity implements View.OnCl
                         user.getRef().setValue(player);
                     }
                 }
+                Toast.makeText(editTrainingActivity, "Training successfully updated", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), MainCoachActivity.class);
                 startActivity(intent);
             }

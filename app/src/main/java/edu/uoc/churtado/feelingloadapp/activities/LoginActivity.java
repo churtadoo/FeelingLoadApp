@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                             checkLoggedUser();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(loginActivity, "Message copied to clipboard!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(loginActivity, "Error in login, please try again!", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

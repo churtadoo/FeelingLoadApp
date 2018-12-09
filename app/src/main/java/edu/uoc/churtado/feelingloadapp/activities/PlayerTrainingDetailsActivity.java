@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -106,6 +107,7 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
     private void saveNewData(){
         player.registerRpe(playerTrainingPosition, newPlayerTrainingRpe.getValue());
         String userEmail = player.getEmail().replaceAll("[@.]","");
+        final PlayerTrainingDetailsActivity playerTrainingDetailsActivity = this;
         FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(player)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -117,6 +119,7 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(playerTrainingDetailsActivity, "Error updating rpe", Toast.LENGTH_LONG).show();
                         Log.d("TAG", "failure");
                     }
                 })
@@ -132,11 +135,13 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         String coachEmail = player.getCoachEmail().replaceAll("[@.]", "");
         Query query = reference.child("users").child(coachEmail);
+        final PlayerTrainingDetailsActivity playerTrainingDetailsActivity = this;
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot snapshot) {
                 Coach coach = snapshot.getValue(Coach.class);
                 coach.registerRpe(playerTraining.getDate(), newPlayerTrainingRpe.getValue(), player.getEmail());
                 snapshot.getRef().setValue(coach);
+                Toast.makeText(playerTrainingDetailsActivity, "Successfully updated rpe", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(getApplicationContext(), MainPlayerActivity.class);
                 startActivity(i);
             }
