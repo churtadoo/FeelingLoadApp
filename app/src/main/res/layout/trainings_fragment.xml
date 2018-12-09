@@ -51,14 +51,15 @@
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true">
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/addNewTraining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="@string/add"
-            android:textColor="@color/white"
-            style="@style/Base.Widget.AppCompat.ButtonBar"/>
+            android:src="@android:drawable/ic_input_add"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="10dp"
+            android:tint="@color/white"/>
+
         <Button
             android:id="@+id/stats"
             android:layout_width="wrap_content"
@@ -66,6 +67,7 @@
             android:background="@color/colorPrimary"
             android:text="@string/stats"
             android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
             style="@style/Base.Widget.AppCompat.ButtonBar"/>
     </LinearLayout>
 </RelativeLayout>

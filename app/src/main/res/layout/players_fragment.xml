@@ -52,14 +52,16 @@
         android:layout_height="wrap_content" android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/addNewPlayer"
             style="@style/Base.Widget.AppCompat.ButtonBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@color/colorPrimary"
-            android:text="@string/add"
-            android:textColor="@color/white" />
+            android:src="@android:drawable/ic_input_add"
+            android:backgroundTint="@color/colorPrimary"
+            android:tint="@color/white"
+            android:layout_marginBottom="10dp"
+            />
     </RelativeLayout>
 </RelativeLayout>

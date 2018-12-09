@@ -33,7 +33,7 @@ public class PlayersFragment extends Fragment {
     private Coach coach;
     private ArrayList<Player> players;
     private View recyclerView;
-    private Button addNewPlayerButton;
+    private FloatingActionButton addNewPlayerButton;
 
     public PlayersFragment() {
         // Required empty public constructor

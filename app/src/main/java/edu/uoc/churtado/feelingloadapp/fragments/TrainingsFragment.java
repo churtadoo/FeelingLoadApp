@@ -35,7 +35,8 @@ public class TrainingsFragment extends Fragment {
     private Coach coach;
     private ArrayList<Training> trainings;
     private View recyclerView;
-    private Button addNewTrainingButton, statsButton;
+    private FloatingActionButton addNewTrainingButton;
+    Button statsButton;
 
     public TrainingsFragment() {
         // Required empty public constructor
