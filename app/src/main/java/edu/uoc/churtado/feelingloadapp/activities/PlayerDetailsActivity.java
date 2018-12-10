@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -62,7 +63,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         playerEmail = findViewById(R.id.editTextEmail);
         playerPhoto = findViewById(R.id.player_photo);
 
-        Button selectPhoto = findViewById(R.id.selectPhoto);
+        FloatingActionButton selectPhoto = findViewById(R.id.selectPhoto);
         selectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
