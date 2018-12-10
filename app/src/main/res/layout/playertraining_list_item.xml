@@ -10,10 +10,14 @@
         android:layout_gravity="center"
         android:layout_weight="0.6"
         android:gravity="center"/>
-    <CheckBox android:id="@+id/rpe_registered"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_gravity="center"
-        android:layout_weight="0.4"/>
+        android:layout_weight="0.4"
+        android:gravity="center">
+        <CheckBox android:id="@+id/rpe_registered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"/>
+    </LinearLayout>
 </LinearLayout>

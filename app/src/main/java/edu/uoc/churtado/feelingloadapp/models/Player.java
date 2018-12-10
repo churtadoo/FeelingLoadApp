@@ -1,6 +1,7 @@
 package edu.uoc.churtado.feelingloadapp.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class Player extends User {
@@ -32,6 +33,7 @@ public class Player extends User {
     }
 
     public ArrayList<PlayerTraining> getTrainings(){
+        Collections.sort(this.trainings);
         return this.trainings;
     }
 

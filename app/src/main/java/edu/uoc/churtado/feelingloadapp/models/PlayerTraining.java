@@ -2,7 +2,7 @@ package edu.uoc.churtado.feelingloadapp.models;
 
 import java.util.Date;
 
-public class PlayerTraining {
+public class PlayerTraining implements Comparable<PlayerTraining>{
     Date date;
     int rpe;
 
@@ -25,5 +25,13 @@ public class PlayerTraining {
 
     public void registerRPE(int rpe) {
         this.rpe = rpe;
+    }
+
+    @Override
+    public int compareTo(PlayerTraining training) {
+        if (getDate() == null || training.getDate() == null) {
+            return 0;
+        }
+        return getDate().compareTo(training.getDate());
     }
 }

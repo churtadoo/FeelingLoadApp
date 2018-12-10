@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Training {
+public class Training implements Comparable<Training>{
     private Date date;
     private List<PlayerRPE> rpes;
 
@@ -48,4 +48,12 @@ public class Training {
     }
 
     public void setDate(Date date) { this.date = date; }
+
+    @Override
+    public int compareTo(Training training) {
+        if (getDate() == null || training.getDate() == null) {
+            return 0;
+        }
+        return getDate().compareTo(training.getDate());
+    }
 }
