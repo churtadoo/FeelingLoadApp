@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText editTextEmail, editTextPassword;
 
     private FirebaseAuth mAuth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +38,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
-        checkLoggedUser();
-
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        checkLoggedUser();
 
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //if user pressed on button login
                 //here we will login the user to server
+                progressBar.setVisibility(View.VISIBLE);
                 loginUser();
             }
         });
@@ -68,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkLoggedUser(){
         //if the user is already logged in, show next activity
         if (IsUserSignedIn()) {
+            progressBar.setVisibility(View.VISIBLE);
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if(currentUser == null) return;
 
@@ -79,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
                     UserType userType = user.getType();
+                    progressBar.setVisibility(View.GONE);
                     if(userType.equals(UserType.Coach)){
                         startActivity(new Intent(LoginActivity.this, MainCoachActivity.class));
                     }
@@ -134,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                             checkLoggedUser();
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(loginActivity, "Error in login, please try again!", Toast.LENGTH_LONG).show();
                         }
                     }

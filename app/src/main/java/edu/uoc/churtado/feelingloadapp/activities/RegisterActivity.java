@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import edu.uoc.churtado.feelingloadapp.models.UserType;
 public class RegisterActivity extends AppCompatActivity {
     EditText editTextName, editTextSurname, editTextEmail, editTextPassword;
     RadioGroup radioGroupUserType;
+    ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
     @Override
@@ -49,12 +51,14 @@ public class RegisterActivity extends AppCompatActivity {
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         radioGroupUserType = (RadioGroup) findViewById(R.id.radioUserType);
+        progressBar = findViewById(R.id.progressBar);
 
         findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //if user pressed on button register
                 //here we will register the user to server
+                progressBar.setVisibility(View.VISIBLE);
                 registerUser();
             }
         });
@@ -89,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
                     UserType userType = user.getType();
+                    progressBar.setVisibility(View.GONE);
                     if(userType.equals(UserType.Coach)){
                         startActivity(new Intent(RegisterActivity.this, MainCoachActivity.class));
                     }
@@ -224,6 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(registerActivity, "Error in register, please try again!", Toast.LENGTH_LONG).show();
                         }
                     }
