@@ -42,6 +42,8 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     @Override
     public void onBindViewHolder(final TrainingAdapter.ViewHolder holder, int position) {
         holder.item = trainings.get(position);
+        int backgroundColor = getBackgroundColor(position);
+        holder.mView.setBackgroundResource(backgroundColor);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         holder.trainingDate.setText(dateFormat.format(trainings.get(position).getDate()));
         SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.UK);
@@ -65,6 +67,11 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+    }
+
+    private int getBackgroundColor(int position){
+        if(position%2 == 0) return R.color.white;
+        return R.color.tableRow;
     }
 
     @Override

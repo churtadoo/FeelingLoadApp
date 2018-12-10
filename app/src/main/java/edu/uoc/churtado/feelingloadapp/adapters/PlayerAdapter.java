@@ -40,6 +40,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final PlayerAdapter.ViewHolder holder, int position) {
         holder.item = players.get(position);
+        holder.mView.setBackgroundResource(getBackgroundColor(position));
         if(holder.item.getUrlPhoto() != null && !holder.item.getUrlPhoto().isEmpty()){
             Picasso.get().load(holder.item.getUrlPhoto()).into(holder.playerPhoto);
         }
@@ -58,6 +59,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
                 context.startActivity(intent);
             }
         });
+    }
+
+    private int getBackgroundColor(int position){
+        if(position%2 == 0) return R.color.white;
+        return R.color.tableRow;
     }
 
     @Override

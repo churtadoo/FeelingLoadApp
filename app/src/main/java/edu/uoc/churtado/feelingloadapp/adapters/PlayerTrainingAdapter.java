@@ -37,6 +37,7 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.item = playerTrainings.get(position);
+        holder.mView.setBackgroundResource(getBackgroundColor(position));
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         holder.trainingDate.setText(dateFormat.format(playerTrainings.get(position).getDate()));
         holder.rpeRegistered.setChecked(playerTrainings.get(position).HasRegisteredRPE());
@@ -53,6 +54,11 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
                 context.startActivity(intent);
             }
         });
+    }
+
+    private int getBackgroundColor(int position){
+        if(position%2 == 0) return R.color.white;
+        return R.color.tableRow;
     }
 
     @Override

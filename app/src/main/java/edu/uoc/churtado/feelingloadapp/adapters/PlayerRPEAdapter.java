@@ -42,8 +42,14 @@ public class PlayerRPEAdapter extends RecyclerView.Adapter<PlayerRPEAdapter.View
     @Override
     public void onBindViewHolder(final PlayerRPEAdapter.ViewHolder holder, int position) {
         holder.item = playerRPES.get(position);
+        holder.mView.setBackgroundResource(getBackgroundColor(position));
         holder.playerEmail.setText(holder.item.getPlayerEmail());
         holder.rpe.setText(String.valueOf(holder.item.getRPE()));
+    }
+
+    private int getBackgroundColor(int position){
+        if(position%2 == 0) return R.color.white;
+        return R.color.tableRow;
     }
 
     @Override
