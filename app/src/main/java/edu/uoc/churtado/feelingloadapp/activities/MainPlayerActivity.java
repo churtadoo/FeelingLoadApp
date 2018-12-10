@@ -2,7 +2,9 @@ package edu.uoc.churtado.feelingloadapp.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -37,10 +39,11 @@ public class MainPlayerActivity extends AppCompatActivity {
 
     private Player player;
 
-    private TextView playerName;
+    private TextView playerName, playerSurname;
     private ImageView playerPhoto;
     private View recyclerView;
     private ListView listView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class MainPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_player);
 
         playerName = findViewById(R.id.player_name);
+        playerSurname = findViewById(R.id.player_surname);
         playerPhoto = findViewById(R.id.player_photo);
 
         listView = (ListView) findViewById(R.id.menu);
@@ -58,6 +62,21 @@ public class MainPlayerActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, options));
         // Set the list's click listener
         listView.setOnItemClickListener(new DrawerItemClickListener());
+
+        //Init swipe refresh layout and set listener to refresh books from firebase
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        fillCurrentPlayer();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        Snackbar snackbar = Snackbar
+                                .make(mSwipeRefreshLayout, "Updated info", Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
+                    }
+                });
 
         recyclerView = findViewById(R.id.playertrainings_list);
         assert recyclerView != null;
@@ -106,7 +125,8 @@ public class MainPlayerActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 player = dataSnapshot.getValue(Player.class);
-                playerName.setText(player.getDisplayName());
+                playerName.setText(player.getName());
+                playerSurname.setText(player.getSurname());
                 if(player.getUrlPhoto() != null && !player.getUrlPhoto().isEmpty()){
                     Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
                 }

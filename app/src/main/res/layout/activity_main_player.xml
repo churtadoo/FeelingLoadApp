@@ -1,80 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main_swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-
-            android:orientation="horizontal"
-            android:layout_height="100dp">
-            <ImageView
-                android:id="@+id/player_photo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
-                android:id="@+id/player_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="30sp"
-                android:layout_gravity="center"/>
-        </LinearLayout>
+        android:layout_height="match_parent" >
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.6"
-                android:gravity="center"
-                android:text="@string/training_date"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.4"
-                android:gravity="center"
-                android:text="@string/rpe_registered"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
-        </LinearLayout>
-        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/playertrainings_list"
-            android:name="edu.uoc.churtado.feelingloadapp.fragments.PlayerTrainingDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             tools:context="edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity"
-            tools:listitem="@layout/playertraining_list_item"
-            android:requiresFadingEdge="vertical"
-            android:fadingEdgeLength="40dp"
-            android:scrollbars="vertical"/>
-    </LinearLayout>
-    <ListView
-        android:id="@+id/menu"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/colorAccent"
-        android:choiceMode="singleChoice"
-        android:divider="@color/colorPrimaryDark"
-        android:dividerHeight="2dp" />
-</android.support.v4.widget.DrawerLayout>
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:orientation="horizontal"
+                android:layout_height="100dp">
+                <ImageView
+                    android:id="@+id/player_photo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:layout_gravity="center_horizontal"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/player_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="30sp"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/player_surname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="30sp"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:text="@string/training_date"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="@string/rpe_registered"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/playertrainings_list"
+                android:name="edu.uoc.churtado.feelingloadapp.fragments.PlayerTrainingDetailFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                tools:context="edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity"
+                tools:listitem="@layout/playertraining_list_item"
+                android:requiresFadingEdge="vertical"
+                android:fadingEdgeLength="40dp"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
+        <ListView
+            android:id="@+id/menu"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/colorAccent"
+            android:choiceMode="singleChoice"
+            android:divider="@color/colorPrimaryDark"
+            android:dividerHeight="2dp" />
+    </android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+

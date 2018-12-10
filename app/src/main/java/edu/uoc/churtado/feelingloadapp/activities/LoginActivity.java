@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //if user pressed on button login
                 //here we will login the user to server
-                progressBar.setVisibility(View.VISIBLE);
                 loginUser();
             }
         });
@@ -129,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             editTextPassword.requestFocus();
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
         final LoginActivity loginActivity = this;
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

@@ -60,4 +60,9 @@ public class MainCoachActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent    );
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

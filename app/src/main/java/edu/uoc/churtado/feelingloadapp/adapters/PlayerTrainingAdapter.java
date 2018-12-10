@@ -38,7 +38,7 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.item = playerTrainings.get(position);
         holder.mView.setBackgroundResource(getBackgroundColor(position));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
         holder.trainingDate.setText(dateFormat.format(playerTrainings.get(position).getDate()));
         holder.rpeRegistered.setChecked(playerTrainings.get(position).HasRegisteredRPE());
 
