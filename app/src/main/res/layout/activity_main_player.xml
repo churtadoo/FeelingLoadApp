@@ -12,42 +12,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context="edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:orientation="vertical">
             <LinearLayout
+                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
-
-                android:orientation="horizontal"
-                android:layout_height="100dp">
-                <ImageView
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/player_photo"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"/>
+                <TextView
+                    android:id="@+id/player_name"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:layout_gravity="center_horizontal"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/player_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="30sp"
-                        android:layout_gravity="center"/>
-                    <TextView
-                        android:id="@+id/player_surname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="30sp"
-                        android:layout_gravity="center"/>
-
-                </LinearLayout>
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="21sp"/>
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="horizontal"

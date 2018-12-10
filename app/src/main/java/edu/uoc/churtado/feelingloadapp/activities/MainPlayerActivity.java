@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter;
 import edu.uoc.churtado.feelingloadapp.models.Player;
@@ -39,8 +40,8 @@ public class MainPlayerActivity extends AppCompatActivity {
 
     private Player player;
 
-    private TextView playerName, playerSurname;
-    private ImageView playerPhoto;
+    private TextView playerName;
+    private CircleImageView playerPhoto;
     private View recyclerView;
     private ListView listView;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -51,7 +52,6 @@ public class MainPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_player);
 
         playerName = findViewById(R.id.player_name);
-        playerSurname = findViewById(R.id.player_surname);
         playerPhoto = findViewById(R.id.player_photo);
 
         listView = (ListView) findViewById(R.id.menu);
@@ -125,8 +125,7 @@ public class MainPlayerActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 player = dataSnapshot.getValue(Player.class);
-                playerName.setText(player.getName());
-                playerSurname.setText(player.getSurname());
+                playerName.setText(player.getDisplayName().toUpperCase());
                 if(player.getUrlPhoto() != null && !player.getUrlPhoto().isEmpty()){
                     Picasso.get().load(player.getUrlPhoto()).into(playerPhoto);
                 }
