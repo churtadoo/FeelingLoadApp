@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,9 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.activities.EditTrainingActivity;
 import edu.uoc.churtado.feelingloadapp.activities.RPESummaryActivity;
@@ -35,7 +32,6 @@ public class TrainingsFragment extends Fragment {
     private Coach coach;
     private ArrayList<Training> trainings;
     private View recyclerView;
-    private FloatingActionButton addNewTrainingButton;
     Button statsButton;
 
     public TrainingsFragment() {
@@ -48,9 +44,10 @@ public class TrainingsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //Initialize elements in view and set click listeners
         recyclerView = getView().findViewById(R.id.trainings_list);
-        addNewTrainingButton = getView().findViewById(R.id.addNewTraining);
+        FloatingActionButton addNewTrainingButton = getView().findViewById(R.id.addNewTraining);
         addNewTrainingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +74,7 @@ public class TrainingsFragment extends Fragment {
     }
 
     private void fillCurrentCoach(){
+        //Get current user and read data from database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;
@@ -104,8 +102,9 @@ public class TrainingsFragment extends Fragment {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         // Setup linear layout manager to the recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //BookContent.getBooks() will get all the books from realm database
+        //Set adapter with trainings list
         recyclerView.setAdapter(new TrainingAdapter(trainings));
+        //Set divider to list elements
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
     }

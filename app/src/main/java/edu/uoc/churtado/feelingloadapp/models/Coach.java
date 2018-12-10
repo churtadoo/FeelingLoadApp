@@ -10,8 +10,8 @@ public class Coach extends User {
 
     public Coach(){
         this.setType(UserType.Coach);
-        players = new ArrayList<Player>();
-        trainings = new ArrayList<Training>();
+        players = new ArrayList<>();
+        trainings = new ArrayList<>();
     }
 
     public ArrayList<Player> getPlayers(){

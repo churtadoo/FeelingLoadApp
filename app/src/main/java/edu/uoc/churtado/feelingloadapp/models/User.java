@@ -6,9 +6,10 @@ public class User {
     private String name;
     private String surname;
 
-    public User(){
+    private final String CoachType = "Coach";
+    private final String PlayerType = "Player";
 
-    }
+    User(){}
 
     public User(String email, UserType type, String name, String surname){
         this.email = email;
@@ -30,13 +31,13 @@ public class User {
     public String getSurname() { return this.surname; }
 
     private UserType getType(String userType) {
-        if(userType.equals("Coach")) return UserType.Coach;
+        if(userType.equals(CoachType)) return UserType.Coach;
         else return UserType.Player;
     }
 
     private String getType(UserType userType) {
-        if(userType == UserType.Coach) return "Coach";
-        else return "Player";
+        if(userType == UserType.Coach) return CoachType;
+        else return PlayerType;
     }
 
     public void setType(UserType userType){

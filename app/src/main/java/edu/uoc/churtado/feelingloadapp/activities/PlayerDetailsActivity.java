@@ -1,6 +1,5 @@
 package edu.uoc.churtado.feelingloadapp.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,10 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
 import java.io.IOException;
-import java.io.InputStream;
-
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
 import edu.uoc.churtado.feelingloadapp.models.Player;
@@ -80,10 +75,12 @@ public class PlayerDetailsActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
+        //Check if editing an existing player
         if(getIntent().hasExtra(ARG_ITEM_ID)){
             playerPosition = getIntent().getIntExtra(ARG_ITEM_ID, -1);
         }
 
+        //If editing player, set email not editable
         if(playerPosition != -1){
             playerEmail.setEnabled(false);
         }
@@ -92,6 +89,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     }
 
     private void fillCurrentCoach(){
+        //Get current user info from database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;
@@ -111,6 +109,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     }
 
     private void fillPlayerView(){
+        //Check if editing player to set player existing info in view
         if(playerPosition != -1) {
             currentPlayer = coach.getPlayers().get(playerPosition);
             playerName.setText(currentPlayer.getName());
@@ -127,6 +126,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     }
 
     public void pickImage() {
+        //Start new intent to pick image from gallery
         Intent intent = new Intent();
         // Show only images, no videos or anything else
         intent.setType("image/*");
@@ -137,6 +137,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //When a picture is taken from the gallery, load it in image view
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -145,9 +146,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uploadedPhotoUri);
-                // Log.d(TAG, String.valueOf(bitmap));
-
-                playerPhoto = (ImageView) findViewById(R.id.player_photo);
+                playerPhoto = findViewById(R.id.player_photo);
                 playerPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -156,6 +155,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     }
 
     private void saveNewData(){
+        //Form validation
         if (TextUtils.isEmpty(playerName.getText())) {
             playerName.setError("Please enter a name");
             playerName.requestFocus();
@@ -176,6 +176,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
             playerEmail.requestFocus();
             return;
         }
+        //Update player info with values in view
         currentPlayer.setName(String.valueOf(playerName.getText()));
         currentPlayer.setSurname(String.valueOf(playerSurname.getText()));
         currentPlayer.setEmail(String.valueOf(playerEmail.getText()));
@@ -186,6 +187,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         else {
             coach.addPlayer(currentPlayer);
         }
+        //If photo selected, save it in Firebase Storage
         if(uploadedPhotoUri != null) {
             String playerEmail = currentPlayer.getEmail().replaceAll("[@.]","");
             final StorageReference ref = mStorageRef.child("userImages/" + playerEmail + ".jpg");
@@ -221,6 +223,7 @@ public class PlayerDetailsActivity extends AppCompatActivity {
     }
 
     private void saveCurrentData(){
+        //Update new player infoin database
         String userEmail = coach.getEmail().replaceAll("[@.]","");
         final PlayerDetailsActivity playerDetailsActivity = this;
         FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(coach)
@@ -238,18 +241,6 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                                         Intent i = new Intent(getApplicationContext(), MainCoachActivity.class);
                                         startActivity(i);
                                     }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d("TAG", "failure");
-                                    }
-                                })
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d("TAG", "complete");
-                                    }
                                 });
                     }
                 })
@@ -258,12 +249,6 @@ public class PlayerDetailsActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(playerDetailsActivity, "Error updating player", Toast.LENGTH_LONG).show();
                         Log.d("TAG", "failure");
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d("TAG", "complete");
                     }
                 });
     }

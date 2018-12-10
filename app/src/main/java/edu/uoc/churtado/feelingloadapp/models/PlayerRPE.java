@@ -8,7 +8,7 @@ public class PlayerRPE {
 
     }
 
-    public PlayerRPE(String playerEmail, int rpe){
+    PlayerRPE(String playerEmail, int rpe){
         this.playerEmail = playerEmail;
         this.rpe = rpe;
     }
@@ -21,11 +21,11 @@ public class PlayerRPE {
         return this.rpe;
     }
 
-    public boolean HasRegisteredRPE(){
+    boolean HasRegisteredRPE(){
         return rpe > 0;
     }
 
-    public void registerRpe(int rpe){
+    void registerRpe(int rpe){
         this.rpe = rpe;
     }
 }

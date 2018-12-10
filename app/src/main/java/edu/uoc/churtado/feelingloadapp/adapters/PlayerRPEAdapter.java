@@ -1,24 +1,14 @@
 package edu.uoc.churtado.feelingloadapp.adapters;
 
-import android.content.Context;
-import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-
 import edu.uoc.churtado.feelingloadapp.R;
-import edu.uoc.churtado.feelingloadapp.activities.TrainingDetailsActivity;
 import edu.uoc.churtado.feelingloadapp.models.PlayerRPE;
-import edu.uoc.churtado.feelingloadapp.models.Training;
-
-import static edu.uoc.churtado.feelingloadapp.activities.TrainingDetailsActivity.ARG_ITEM_ID;
 
 public class PlayerRPEAdapter extends RecyclerView.Adapter<PlayerRPEAdapter.ViewHolder> {
     private final List<PlayerRPE> playerRPES;
@@ -27,8 +17,9 @@ public class PlayerRPEAdapter extends RecyclerView.Adapter<PlayerRPEAdapter.View
         this.playerRPES = playerRPES;
     }
 
+    @NonNull
     @Override
-    public PlayerRPEAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlayerRPEAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         return new PlayerRPEAdapter.ViewHolder(view);
     }
@@ -40,9 +31,12 @@ public class PlayerRPEAdapter extends RecyclerView.Adapter<PlayerRPEAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final PlayerRPEAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PlayerRPEAdapter.ViewHolder holder, int position) {
+        //Get PlayerRPE to show
         holder.item = playerRPES.get(position);
+        //Get and set background color for list element
         holder.mView.setBackgroundResource(getBackgroundColor(position));
+        //Set player email and rpe
         holder.playerEmail.setText(holder.item.getPlayerEmail());
         holder.rpe.setText(String.valueOf(holder.item.getRPE()));
     }
@@ -61,17 +55,17 @@ public class PlayerRPEAdapter extends RecyclerView.Adapter<PlayerRPEAdapter.View
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
         final TextView playerEmail;
         final TextView rpe;
-        public PlayerRPE item;
+        PlayerRPE item;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
-            playerEmail = (TextView) view.findViewById(R.id.player_email);
-            rpe = (TextView) view.findViewById(R.id.rpe);
+            playerEmail = view.findViewById(R.id.player_email);
+            rpe = view.findViewById(R.id.rpe);
         }
     }
 }

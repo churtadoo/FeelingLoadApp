@@ -12,9 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,10 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import edu.uoc.churtado.feelingloadapp.R;
-import edu.uoc.churtado.feelingloadapp.models.Coach;
-import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.User;
 import edu.uoc.churtado.feelingloadapp.models.UserType;
 
@@ -46,18 +41,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         checkLoggedUser();
 
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextSurname = (EditText) findViewById(R.id.editTextSurname);
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        radioGroupUserType = (RadioGroup) findViewById(R.id.radioUserType);
+        editTextName = findViewById(R.id.editTextName);
+        editTextSurname = findViewById(R.id.editTextSurname);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        radioGroupUserType = findViewById(R.id.radioUserType);
         progressBar = findViewById(R.id.progressBar);
 
         findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if user pressed on button register
-                //here we will register the user to server
+                //register user on click
                 progressBar.setVisibility(View.VISIBLE);
                 registerUser();
             }
@@ -66,8 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.textViewLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if user pressed on login
-                //we will open the login screen
+                //change to login activity
                 finish();
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
@@ -76,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        //If back button pressed, do nothing
     }
 
     private void checkLoggedUser(){
@@ -93,13 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
                     UserType userType = user.getType();
-                    progressBar.setVisibility(View.GONE);
-                    if(userType.equals(UserType.Coach)){
-                        startActivity(new Intent(RegisterActivity.this, MainCoachActivity.class));
-                    }
-                    else {
-                        startActivity(new Intent(RegisterActivity.this, MainPlayerActivity.class));
-                    }
+                    goToNextActivity(userType);
                 }
 
                 @Override
@@ -107,6 +94,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
             });
+        }
+    }
+
+    private void goToNextActivity(UserType userType){
+        progressBar.setVisibility(View.GONE);
+        //Show different activity according to user's type
+        if(userType.equals(UserType.Coach)){
+            startActivity(new Intent(RegisterActivity.this, MainCoachActivity.class));
+        }
+        else {
+            startActivity(new Intent(RegisterActivity.this, MainPlayerActivity.class));
         }
     }
 
@@ -123,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         final String userType = ((RadioButton) findViewById(radioGroupUserType.getCheckedRadioButtonId())).getText().toString();
 
-        //first we will do the validations
+        //Validate entered data and show errors if needed
 
         if (TextUtils.isEmpty(name)) {
             editTextName.setError("Please enter name");
@@ -161,7 +159,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success, create or update user information from database
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                             final String userEmail = firebaseUser.getEmail().replaceAll("[@.]","");
                             if(getUserType(userType) == UserType.Player) {
@@ -169,10 +167,11 @@ public class RegisterActivity extends AppCompatActivity {
                                 reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
+                                        //If player already exists in database, just check and go to main activity
                                         if(dataSnapshot.getValue() != null){
-                                            Player player = dataSnapshot.getValue(Player.class);
-                                            checkLoggedUser();
+                                            goToNextActivity(UserType.Player);
                                         }
+                                        //If no player exists, create a new one
                                         else {
                                             User user = new User(email, getUserType(userType), name, surname);
                                             FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(user)
@@ -180,19 +179,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             Log.d("TAG", "success");
-                                                            checkLoggedUser();
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Log.d("TAG", "failure");
-                                                        }
-                                                    })
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            Log.d("TAG", "complete");
+                                                            goToNextActivity(UserType.Player);
                                                         }
                                                     });
                                         }
@@ -204,6 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+                            //If coach, always create a new user
                             else {
                                 User user = new User(email, getUserType(userType), name, surname);
                                 FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(user)
@@ -211,19 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("TAG", "success");
-                                                checkLoggedUser();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("TAG", "failure");
-                                            }
-                                        })
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                Log.d("TAG", "complete");
+                                                goToNextActivity(UserType.Coach);
                                             }
                                         });
                             }

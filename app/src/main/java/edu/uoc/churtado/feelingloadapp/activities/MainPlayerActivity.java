@@ -3,7 +3,6 @@ package edu.uoc.churtado.feelingloadapp.activities;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,10 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.Date;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter;
@@ -43,7 +37,6 @@ public class MainPlayerActivity extends AppCompatActivity {
     private TextView playerName;
     private CircleImageView playerPhoto;
     private View recyclerView;
-    private ListView listView;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -54,17 +47,16 @@ public class MainPlayerActivity extends AppCompatActivity {
         playerName = findViewById(R.id.player_name);
         playerPhoto = findViewById(R.id.player_photo);
 
-        listView = (ListView) findViewById(R.id.menu);
-        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ListView listView = findViewById(R.id.menu);
         final String[] options = { "Logout" };
 
-        listView.setAdapter(new ArrayAdapter<String>(this,
+        listView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, options));
         // Set the list's click listener
         listView.setOnItemClickListener(new DrawerItemClickListener());
 
-        //Init swipe refresh layout and set listener to refresh books from firebase
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        //Init swipe refresh layout and set listener to refresh info from firebase
+        mSwipeRefreshLayout = findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
@@ -86,17 +78,19 @@ public class MainPlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        //If back button pressed, do nothing
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //If menu item clicked, logout
             logout();
         }
     }
 
     private void logout() {
+        //Logout from Firebase
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent    );
@@ -110,13 +104,14 @@ public class MainPlayerActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         // Setup linear layout manager to the recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        //BookContent.getBooks() will get all the books from realm database
+        //Set adapter with player trainings
         recyclerView.setAdapter(new PlayerTrainingAdapter(playerTrainings));
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(),
                 DividerItemDecoration.VERTICAL));
     }
 
     private void fillCurrentPlayer(){
+        //Read info from database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;

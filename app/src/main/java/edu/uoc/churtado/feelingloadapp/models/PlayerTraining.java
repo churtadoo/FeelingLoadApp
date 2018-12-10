@@ -1,13 +1,15 @@
 package edu.uoc.churtado.feelingloadapp.models;
 
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 
 public class PlayerTraining implements Comparable<PlayerTraining>{
-    Date date;
-    int rpe;
+    private Date date;
+    private int rpe;
 
     public PlayerTraining() {}
-    public PlayerTraining(Date date){
+    PlayerTraining(Date date){
         this.date = date;
     }
 
@@ -23,12 +25,12 @@ public class PlayerTraining implements Comparable<PlayerTraining>{
         return rpe > 0;
     }
 
-    public void registerRPE(int rpe) {
+    void registerRPE(int rpe) {
         this.rpe = rpe;
     }
 
     @Override
-    public int compareTo(PlayerTraining training) {
+    public int compareTo(@NonNull PlayerTraining training) {
         if (getDate() == null || training.getDate() == null) {
             return 0;
         }

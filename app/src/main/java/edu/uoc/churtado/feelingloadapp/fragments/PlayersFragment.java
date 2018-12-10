@@ -12,8 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import edu.uoc.churtado.feelingloadapp.R;
-import edu.uoc.churtado.feelingloadapp.activities.MainPlayerActivity;
 import edu.uoc.churtado.feelingloadapp.activities.PlayerDetailsActivity;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerAdapter;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
@@ -33,7 +30,6 @@ public class PlayersFragment extends Fragment {
     private Coach coach;
     private ArrayList<Player> players;
     private View recyclerView;
-    private FloatingActionButton addNewPlayerButton;
 
     public PlayersFragment() {
         // Required empty public constructor
@@ -45,9 +41,10 @@ public class PlayersFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //Set view elements and click listeners
         recyclerView = getView().findViewById(R.id.players_list);
-        addNewPlayerButton = getView().findViewById(R.id.addNewPlayer);
+        FloatingActionButton addNewPlayerButton = getView().findViewById(R.id.addNewPlayer);
         addNewPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +63,7 @@ public class PlayersFragment extends Fragment {
     }
 
     private void fillCurrentCoach(){
+        //Get current user and read information from database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;
@@ -93,8 +91,9 @@ public class PlayersFragment extends Fragment {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         // Setup linear layout manager to the recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //BookContent.getBooks() will get all the books from realm database
+        //Set adapter with players list
         recyclerView.setAdapter(new PlayerAdapter(players));
+        //Set divider between list elements
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
     }

@@ -1,6 +1,5 @@
 package edu.uoc.churtado.feelingloadapp.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,26 +22,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
 import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.PlayerTraining;
-import edu.uoc.churtado.feelingloadapp.models.UserType;
 
 public class PlayerTrainingDetailsActivity extends AppCompatActivity {
     public static final String ARG_ITEM_ID = "item_id";
     private Player player;
     private int playerTrainingPosition;
 
-    private TextView playerTrainingDate, playerTrainingRpe;
     private NumberPicker newPlayerTrainingRpe;
-    private Button saveRpe;
-
     private PlayerTraining playerTraining;
 
     @Override
@@ -55,6 +47,7 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
     }
 
     private void fillUi(){
+        //Check logged user and read database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;
@@ -76,14 +69,17 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
     private void fillTrainingInfo(){
         List<PlayerTraining> playerTrainings = player.getTrainings();
         playerTraining = playerTrainings.get(playerTrainingPosition);
+        TextView playerTrainingDate;
+        //If player has registered rpe, set values
         if(playerTraining.HasRegisteredRPE()){
             setContentView(R.layout.player_training_details_registered);
             playerTrainingDate = findViewById(R.id.playertraining_date);
-            playerTrainingRpe = findViewById(R.id.playertraining_rpe);
+            TextView playerTrainingRpe = findViewById(R.id.playertraining_rpe);
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
             playerTrainingDate.setText(dateFormat.format(playerTraining.getDate()));
-            playerTrainingRpe.setText("RPE: " + playerTraining.getRPE());
+            playerTrainingRpe.setText(getString(R.string.rpetext) + playerTraining.getRPE());
         }
+        //If not registered, show number picker and button to register rpe
         else {
             setContentView(R.layout.player_training_details_new_register);
             playerTrainingDate = findViewById(R.id.playertraining_date);
@@ -94,7 +90,7 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
             newPlayerTrainingRpe.setMinValue(1);
             newPlayerTrainingRpe.setMaxValue(10);
 
-            saveRpe = findViewById(R.id.save_playertraining_rpe);
+            Button saveRpe = findViewById(R.id.save_playertraining_rpe);
             saveRpe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,6 +101,7 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
     }
 
     private void saveNewData(){
+        //Save new rpe value in player's info
         player.registerRpe(playerTrainingPosition, newPlayerTrainingRpe.getValue());
         String userEmail = player.getEmail().replaceAll("[@.]","");
         final PlayerTrainingDetailsActivity playerTrainingDetailsActivity = this;
@@ -132,6 +129,7 @@ public class PlayerTrainingDetailsActivity extends AppCompatActivity {
     }
 
     private void updateCoachInfo(){
+        //Update new rpe value in coach info
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         String coachEmail = player.getCoachEmail().replaceAll("[@.]", "");
         Query query = reference.child("users").child(coachEmail);

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,17 +20,11 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Locale;
-
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.adapters.PlayerRPEAdapter;
-import edu.uoc.churtado.feelingloadapp.adapters.PlayerTrainingAdapter;
 import edu.uoc.churtado.feelingloadapp.models.Coach;
-import edu.uoc.churtado.feelingloadapp.models.Player;
 import edu.uoc.churtado.feelingloadapp.models.Training;
 
 public class TrainingDetailsActivity extends AppCompatActivity {
@@ -62,13 +55,15 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         // Setup linear layout manager to the recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        //BookContent.getBooks() will get all the books from realm database
+        //Set adapter with training RPEs
         recyclerView.setAdapter(new PlayerRPEAdapter(currentTraining.getRPEs()));
+        //Set divider between list elements
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(),
                 DividerItemDecoration.VERTICAL));
     }
 
     private void fillUi(){
+        //Get current user and read database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;
@@ -88,12 +83,17 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     }
 
     private void fillTrainingInfo(){
+        //Get current training
         currentTraining = coach.getTrainings().get(trainingPosition);
+        //Set training date
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         trainingDate.setText(dateFormat.format(currentTraining.getDate()));
-        maxRpe.setText("Max: " + getMaxRpe());
-        minRpe.setText("Min: " + getMinRpe());
-        avgRpe.setText("Avg: " + getAvgRpe());
+        //Get and set training rpe info
+        maxRpe.setText(getString(R.string.max) + getMaxRpe());
+        minRpe.setText(getString(R.string.min) + getMinRpe());
+        avgRpe.setText(getString(R.string.avg) + getAvgRpe());
+
+        //Draw bar graph with rpe information
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, getRpeCount(0)),
                 new DataPoint(1, getRpeCount(1)),
@@ -109,7 +109,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         });
         graph.addSeries(series);
 
-        // styling
+        // set bar colors
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
@@ -117,13 +117,14 @@ public class TrainingDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // set spacing between bars
         series.setSpacing(20);
 
         // draw values on top
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.BLACK);
-        //series.setValuesOnTopSize(50);
 
+        //Set manual bounds
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(10);
@@ -136,6 +137,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     }
 
     private int getRpeCount(int rpe){
+        //Get number of registered rpes with given value
         int count = 0;
         for(int i = 0; i < currentTraining.getRPEs().size(); ++i){
             if(currentTraining.getRPEs().get(i).getRPE() == rpe){
@@ -146,6 +148,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     }
 
     private int getMinRpe(){
+        //Get min value of registered rpes
         int minRpe = Integer.MAX_VALUE;
         for (int i = 0; i < currentTraining.getRPEs().size(); i++) {
             int rpe = currentTraining.getRPEs().get(i).getRPE();
@@ -157,6 +160,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     }
 
     private int getMaxRpe(){
+        //Get max value of registered rpes
         int maxRpe = Integer.MIN_VALUE;
         for (int i = 0; i < currentTraining.getRPEs().size(); i++) {
             int rpe = currentTraining.getRPEs().get(i).getRPE();
@@ -168,6 +172,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     }
 
     private float getAvgRpe(){
+        //Get avg value from registered rpes
         int rpeSum = 0;
         for(int i = 0; i < currentTraining.getRPEs().size(); ++i){
             rpeSum += currentTraining.getRPEs().get(i).getRPE();

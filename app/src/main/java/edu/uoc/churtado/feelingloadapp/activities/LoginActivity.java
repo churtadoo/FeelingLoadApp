@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,7 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.models.User;
 import edu.uoc.churtado.feelingloadapp.models.UserType;
@@ -38,17 +36,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        progressBar = findViewById(R.id.progressBar);
 
         checkLoggedUser();
 
         findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if user pressed on button login
-                //here we will login the user to server
+                //Login user
                 loginUser();
             }
         });
@@ -56,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.textViewRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //open register screen
+                //Go to register activity
                 finish();
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
@@ -65,11 +62,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        //If button back pressed, do nothing
     }
 
     private void checkLoggedUser(){
-        //if the user is already logged in, show next activity
+        //If user logged, go to next activity
         if (IsUserSignedIn()) {
             progressBar.setVisibility(View.VISIBLE);
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -109,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         final String email = editTextEmail.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
 
-        //first we will do the validations
+        //Form validations and how errors
 
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError("Please enter your email");
@@ -135,8 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            // Sign in success, go to next activity
                             checkLoggedUser();
                         } else {
                             // If sign in fails, display a message to the user.

@@ -2,15 +2,14 @@ package edu.uoc.churtado.feelingloadapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 import edu.uoc.churtado.feelingloadapp.R;
 import edu.uoc.churtado.feelingloadapp.activities.PlayerDetailsActivity;
@@ -25,8 +24,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         this.players = players;
     }
 
+    @NonNull
     @Override
-    public PlayerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlayerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         return new PlayerAdapter.ViewHolder(view);
     }
@@ -38,12 +38,16 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final PlayerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PlayerAdapter.ViewHolder holder, int position) {
+        //Get Player to show
         holder.item = players.get(position);
+        //Get and set background color for list element
         holder.mView.setBackgroundResource(getBackgroundColor(position));
+        //If player has photo, load it with Picasso
         if(holder.item.getUrlPhoto() != null && !holder.item.getUrlPhoto().isEmpty()){
             Picasso.get().load(holder.item.getUrlPhoto()).into(holder.playerPhoto);
         }
+        //Set player name and surname
         holder.playerName.setText(holder.item.getName());
         holder.playerSurname.setText(holder.item.getSurname());
 
@@ -53,6 +57,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
             public void onClick(View v) {
                 int currentPos = (int) v.getTag();
                 Context context = v.getContext();
+                //If element is clicked, go to PlayerDetailsActivity
                 Intent intent = new Intent(context, PlayerDetailsActivity.class);
                 intent.putExtra(ARG_ITEM_ID, currentPos);
                 //Start the new activity
@@ -75,19 +80,19 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
         final ImageView playerPhoto;
         final TextView playerName;
         final TextView playerSurname;
-        public Player item;
+        Player item;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
-            playerPhoto = (ImageView) view.findViewById(R.id.player_photo);
-            playerName = (TextView) view.findViewById(R.id.player_name);
-            playerSurname = (TextView) view.findViewById(R.id.player_surname);
+            playerPhoto = view.findViewById(R.id.player_photo);
+            playerName = view.findViewById(R.id.player_name);
+            playerSurname = view.findViewById(R.id.player_surname);
         }
     }
 }

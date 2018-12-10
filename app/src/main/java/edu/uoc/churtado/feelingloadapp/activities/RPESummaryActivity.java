@@ -34,39 +34,38 @@ import edu.uoc.churtado.feelingloadapp.models.Training;
 public class RPESummaryActivity extends AppCompatActivity implements View.OnClickListener{
     private Coach coach;
 
-    private static final String CERO = "0";
-    private static final String BARRA = "/";
-    private static final String DOS_PUNTOS = ":";
+    private static final String ZERO = "0";
+    private static final String BAR = "/";
 
-    //Calendario para obtener fecha & hora
+    //Calendar to get date and time
     public final Calendar c = Calendar.getInstance();
 
-    //Variables para obtener la fecha
-    final int mes = c.get(Calendar.MONTH);
-    final int dia = c.get(Calendar.DAY_OF_MONTH);
-    final int anio = c.get(Calendar.YEAR);
+    //Vars to get date
+    final int selectedMonth = c.get(Calendar.MONTH);
+    final int selectedDay = c.get(Calendar.DAY_OF_MONTH);
+    final int selectedYear = c.get(Calendar.YEAR);
 
     int startYear, startMonth, startDay, endYear, endMonth, endDay;
 
     //Widgets
-    EditText etFecha, etFecha2;
-    ImageButton ibObtenerFecha, ibObtenerFecha2;
+    EditText editTextDateStart, editTextDateEnd;
+    ImageButton ibGetDateStart, ibGetDateEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rpesummary);
 
-        //Widget EditText donde se mostrara la fecha obtenida
-        etFecha = (EditText) findViewById(R.id.et_mostrar_fecha_picker);
-        etFecha2 = (EditText) findViewById(R.id.et_mostrar_fecha_picker2);
-        //Widget ImageButton del cual usaremos el evento clic para obtener la fecha
-        ibObtenerFecha = (ImageButton) findViewById(R.id.ib_obtener_fecha);
-        ibObtenerFecha2 = (ImageButton) findViewById(R.id.ib_obtener_fecha2);
-        //Evento setOnClickListener - clic
-        ibObtenerFecha.setOnClickListener(this);
-        ibObtenerFecha2.setOnClickListener(this);
+        //Edit Texts to show selected dates
+        editTextDateStart = findViewById(R.id.et_mostrar_fecha_picker);
+        editTextDateEnd = findViewById(R.id.et_mostrar_fecha_picker2);
+        //Buttons to show date pickers
+        ibGetDateStart = findViewById(R.id.ib_obtener_fecha);
+        ibGetDateEnd = findViewById(R.id.ib_obtener_fecha2);
+        ibGetDateStart.setOnClickListener(this);
+        ibGetDateEnd.setOnClickListener(this);
 
+        //Button to update graph with selected dates
         Button updateGraphButton = findViewById(R.id.updateGraph);
         updateGraphButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +78,7 @@ public class RPESummaryActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateGraph(){
+        //To update graph info, get all trainings between selected dates
         Calendar calendar = Calendar.getInstance();
         calendar.set(startYear, startMonth, startDay);
         Date startDate = calendar.getTime();
@@ -95,7 +95,8 @@ public class RPESummaryActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-        GraphView graph = (GraphView) findViewById(R.id.rpe_summary);
+        //Draw graph with sum of registered rpes for each value
+        GraphView graph = findViewById(R.id.rpe_summary);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, trainingsInfo[0]),
                 new DataPoint(1, trainingsInfo[1]),
@@ -124,26 +125,24 @@ public class RPESummaryActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_obtener_fecha:
-                obtenerFecha();
+                getDateStart();
                 break;
             case R.id.ib_obtener_fecha2:
-                obtenerFecha2();
+                getDateEnd();
                 break;
         }
     }
 
-    private void obtenerFecha(){
-        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+    private void getDateStart(){
+        DatePickerDialog getStartDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
-                final int mesActual = month + 1;
-                //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
-                //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
-                //Muestro la fecha con el formato deseado
-                etFecha.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+                //Because month start in 0
+                final int currentMonth = month + 1;
+                //Format date and show it
+                String formattedDay = (dayOfMonth < 10)? ZERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String formattedMonth = (currentMonth < 10)? ZERO + String.valueOf(currentMonth):String.valueOf(currentMonth);
+                editTextDateStart.setText(formattedDay + BAR + formattedMonth + BAR + year);
                 startDay = dayOfMonth;
                 startMonth = month;
                 startYear = year;
@@ -152,23 +151,21 @@ public class RPESummaryActivity extends AppCompatActivity implements View.OnClic
             /**
              *También puede cargar los valores que usted desee
              */
-        },anio, mes, dia);
-        //Muestro el widget
-        recogerFecha.show();
+        },selectedYear, selectedMonth, selectedDay);
+        //Show the widget
+        getStartDate.show();
     }
 
-    private void obtenerFecha2(){
-        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+    private void getDateEnd(){
+        DatePickerDialog getStartDate = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
-                final int mesActual = month + 1;
-                //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
-                //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
-                //Muestro la fecha con el formato deseado
-                etFecha2.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+                //Because month start in 0
+                final int currentMonth = month + 1;
+                //Format date and show it
+                String formattedDay = (dayOfMonth < 10)? ZERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String formattedMonth = (currentMonth < 10)? ZERO + String.valueOf(currentMonth):String.valueOf(currentMonth);
+                editTextDateEnd.setText(formattedDay + BAR + formattedMonth + BAR + year);
                 endDay = dayOfMonth;
                 endMonth = month;
                 endYear = year;
@@ -177,12 +174,13 @@ public class RPESummaryActivity extends AppCompatActivity implements View.OnClic
             /**
              *También puede cargar los valores que usted desee
              */
-        },anio, mes, dia);
-        //Muestro el widget
-        recogerFecha.show();
+        },selectedYear, selectedMonth, selectedDay);
+        //Show the widget
+        getStartDate.show();
     }
 
     private void fillCurrentCoach(){
+        //Get current user and read data from database
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String email = currentUser.getEmail().replaceAll("[@.]","");;

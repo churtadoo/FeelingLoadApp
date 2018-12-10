@@ -13,7 +13,7 @@ public class Player extends User {
 
     public Player(){
         this.setType(UserType.Player);
-        this.trainings = new ArrayList<PlayerTraining>();
+        this.trainings = new ArrayList<>();
         this.urlPhoto = DefaultUrlPhoto;
     }
 
@@ -21,7 +21,7 @@ public class Player extends User {
         if(urlPhoto.isEmpty()) urlPhoto = DefaultUrlPhoto;
         this.urlPhoto = urlPhoto;
         this.coachEmail = coachEmail;
-        this.trainings = new ArrayList<PlayerTraining>();
+        this.trainings = new ArrayList<>();
     }
 
     public String getUrlPhoto(){

@@ -1,6 +1,7 @@
 package edu.uoc.churtado.feelingloadapp.adapters;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,9 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
         this.playerTrainings = playerTrainings;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         return new ViewHolder(view);
     }
@@ -35,9 +37,12 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        //Get PlayerTraining to show
         holder.item = playerTrainings.get(position);
+        //Get and set background color for list element
         holder.mView.setBackgroundResource(getBackgroundColor(position));
+        //Set training date and check if player has registered rpe
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
         holder.trainingDate.setText(dateFormat.format(playerTrainings.get(position).getDate()));
         holder.rpeRegistered.setChecked(playerTrainings.get(position).HasRegisteredRPE());
@@ -48,6 +53,7 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
             public void onClick(View v) {
                 int currentPos = (int) v.getTag();
                 Context context = v.getContext();
+                //If element is clicked, go to PlayerTrainingDetailsActivity
                 Intent intent = new Intent(context, PlayerTrainingDetailsActivity.class);
                 intent.putExtra(ARG_ITEM_ID, currentPos);
                 //Start the new activity
@@ -70,17 +76,17 @@ public class PlayerTrainingAdapter extends RecyclerView.Adapter<PlayerTrainingAd
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
         final TextView trainingDate;
         final CheckBox rpeRegistered;
-        public PlayerTraining item;
+        PlayerTraining item;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
-            trainingDate = (TextView) view.findViewById(R.id.training_date);
-            rpeRegistered = (CheckBox) view.findViewById(R.id.rpe_registered);
+            trainingDate = view.findViewById(R.id.training_date);
+            rpeRegistered = view.findViewById(R.id.rpe_registered);
         }
     }
 }
