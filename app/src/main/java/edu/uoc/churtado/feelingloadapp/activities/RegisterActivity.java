@@ -52,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //register user on click
-                progressBar.setVisibility(View.VISIBLE);
                 registerUser();
             }
         });
@@ -152,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
             editTextPassword.requestFocus();
             return;
         }
-
+        progressBar.setVisibility(View.VISIBLE);
         final RegisterActivity registerActivity = this;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -206,7 +205,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(registerActivity, "Error in register, please try again!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(registerActivity, "User already registered", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

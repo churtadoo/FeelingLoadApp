@@ -37,10 +37,6 @@ public class Coach extends User {
         this.players.set(position, player);
     }
 
-    public void updateTraining(int trainingPosition, Training training) {
-        this.trainings.set(trainingPosition, training);
-    }
-
     public void addTraining(Date date) {
         Training training = new Training(date);
         for(int i = 0; i < this.players.size(); ++i){

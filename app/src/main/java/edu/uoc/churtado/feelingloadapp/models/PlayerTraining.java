@@ -25,7 +25,7 @@ public class PlayerTraining implements Comparable<PlayerTraining>{
         return rpe > 0;
     }
 
-    void registerRPE(int rpe) {
+    public void registerRPE(int rpe) {
         this.rpe = rpe;
     }
 

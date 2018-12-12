@@ -21,11 +21,11 @@ public class PlayerRPE {
         return this.rpe;
     }
 
-    boolean HasRegisteredRPE(){
+    public boolean HasRegisteredRPE(){
         return rpe > 0;
     }
 
-    void registerRpe(int rpe){
+    public void registerRpe(int rpe){
         this.rpe = rpe;
     }
 }

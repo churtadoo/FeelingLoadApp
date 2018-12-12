@@ -52,4 +52,8 @@ public class Player extends User {
     public void addTraining(Date date){
         this.trainings.add(new PlayerTraining(date));
     }
+
+    public void setTrainings(ArrayList<PlayerTraining> trainings) {
+        this.trainings = trainings;
+    }
 }

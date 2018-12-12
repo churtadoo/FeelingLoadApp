@@ -14,7 +14,7 @@ public class Training implements Comparable<Training>{
         this.rpes = new ArrayList<>();
     }
 
-    Training(Date date){
+    public Training(Date date){
         this.date = date;
         this.rpes = new ArrayList<>();
     }
@@ -27,12 +27,12 @@ public class Training implements Comparable<Training>{
         return this.rpes;
     }
 
-    void addPlayerRPE(String playerEmail){
+    public void addPlayerRPE(String playerEmail){
         PlayerRPE playerRPE = new PlayerRPE(playerEmail, 0);
         this.rpes.add(playerRPE);
     }
 
-    void registerRpe(String playerEmail, int rpe){
+    public void registerRpe(String playerEmail, int rpe){
         for(int i = 0; i < this.rpes.size(); ++i){
             PlayerRPE playerRpe = this.rpes.get(i);
             if(playerRpe.getPlayerEmail().equals(playerEmail)){

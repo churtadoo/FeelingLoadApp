@@ -186,6 +186,9 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         }
         else {
             coach.addPlayer(currentPlayer);
+            for (int i = 0; i < coach.getTrainings().size(); ++i){
+                currentPlayer.addTraining(coach.getTrainings().get(i).getDate());
+            }
         }
         //If photo selected, save it in Firebase Storage
         if(uploadedPhotoUri != null) {
@@ -226,22 +229,45 @@ public class PlayerDetailsActivity extends AppCompatActivity {
         //Update new player infoin database
         String userEmail = coach.getEmail().replaceAll("[@.]","");
         final PlayerDetailsActivity playerDetailsActivity = this;
-        FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(coach)
+                FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(coach)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "success");
-                        String userEmail = currentPlayer.getEmail().replaceAll("[@.]","");
-                        FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(currentPlayer)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("TAG", "success");
-                                        Toast.makeText(playerDetailsActivity, "Successfully updated player", Toast.LENGTH_LONG).show();
-                                        Intent i = new Intent(getApplicationContext(), MainCoachActivity.class);
-                                        startActivity(i);
+                        final String userEmail = currentPlayer.getEmail().replaceAll("[@.]","");
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Player player = dataSnapshot.getValue(Player.class);
+                                if(player != null){
+                                    player.setName(currentPlayer.getName());
+                                    player.setSurname(currentPlayer.getSurname());
+                                    player.setUrlPhoto(currentPlayer.getUrlPhoto());
+                                    player.setCoachEmail(coach.getEmail());
+                                    if(player.getTrainings().size() == 0){
+                                        player.setTrainings(currentPlayer.getTrainings());
                                     }
-                                });
+                                }
+                                else {
+                                    player = currentPlayer;
+                                }
+                                FirebaseDatabase.getInstance().getReference().child("users").child(userEmail).setValue(player)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("TAG", "success");
+                                                Toast.makeText(playerDetailsActivity, "Successfully updated player", Toast.LENGTH_LONG).show();
+                                                Intent i = new Intent(getApplicationContext(), MainCoachActivity.class);
+                                                startActivity(i);
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
